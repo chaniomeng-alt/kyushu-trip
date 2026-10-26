@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>九州小旅｜11/22–11/28</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FFFCF6;
+  --ink: #3E3A39;
+  --coral: #F2A497;
+  --yellow: #F6D27A;
+  --blue: #A8D3E6;
+  --green: #B9DAA5;
+  --radius: 28px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Huninn', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  font-size: 16px;
+}
+a { color: inherit; text-decoration: none; }
+img, svg { max-width: 100%; display: block; }
+
+/* Fixed Nav */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: var(--bg);
+  border-bottom: 3px solid var(--ink);
+  z-index: 100;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+nav .logo { font-size: 1.3rem; font-weight: bold; }
+nav .links { display: flex; gap: 12px; flex-wrap: wrap; }
+nav .links a {
+  padding: 6px 12px;
+  border: 3px solid var(--ink);
+  border-radius: 20px;
+  background: var(--yellow);
+  font-size: 0.95rem;
+}
+nav .links a:active { background: var(--coral); }
+
+/* Main */
+main { padding: 80px 16px 40px; max-width: 720px; margin: 0 auto; }
+section { margin-bottom: 48px; }
+
+/* Hero */
+.hero {
+  text-align: center;
+  border: 3px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--blue);
+  padding: 24px 16px;
+  margin-bottom: 32px;
+}
+.hero h1 { font-size: 2rem; margin: 12px 0 8px; }
+.hero .sub { font-size: 1.1rem; margin-bottom: 16px; }
+.countdown {
+  display: inline-block;
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+  border-radius: 20px;
+  padding: 10px 18px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.float { animation: float 4s ease-in-out infinite; }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Cards */
+.card {
+  border: 3px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 16px;
+  background: white;
+}
+.card h3 { margin-bottom: 8px; font-size: 1.2rem; }
+.flight-grid { display: grid; gap: 16px; }
+@media (min-width: 600px) {
+  .flight-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* Date tabs */
+.date-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  -webkit-overflow-scrolling: touch;
+}
+.date-tab {
+  flex: 0 0 auto;
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  padding: 10px 14px;
+  background: white;
+  cursor: pointer;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+.date-tab.active {
+  background: var(--coral);
+  color: white;
+}
+.timeline-wrap { position: relative; min-height: 200px; }
+.timeline {
+  display: none;
+  border: 3px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 16px;
+  background: white;
+}
+.timeline.active {
+  display: block;
+  animation: bounce 0.45s cubic-bezier(.36,.07,.19,.97);
+}
+@keyframes bounce {
+  0% { transform: scale(0.96); }
+  40% { transform: scale(1.03); }
+  70% { transform: scale(0.99); }
+  100% { transform: scale(1); }
+}
+.time-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+  align-items: flex-start;
+}
+.time-item .time {
+  flex: 0 0 72px;
+  font-weight: bold;
+  background: var(--yellow);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 4px 6px;
+  text-align: center;
+  font-size: 0.85rem;
+}
+.time-item .content { flex: 1; }
+.tag {
+  display: inline-block;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 0.8rem;
+  margin-right: 6px;
+  margin-bottom: 4px;
+}
+.tag.train { background: var(--blue); }
+.tag.bus { background: var(--green); }
+.tag.walk { background: var(--yellow); }
+.tag.flight { background: var(--coral); }
+.must { background: var(--coral); color: white; border-radius: 10px; padding: 1px 6px; font-size: 0.75rem; margin-left: 4px; }
+
+/* Todo */
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 2px dashed var(--ink);
+}
+.todo-item input { width: 22px; height: 22px; accent-color: var(--coral); }
+.todo-item.done label { text-decoration: line-through; opacity: 0.6; }
+
+/* Accommodation */
+.acc-grid { display: grid; gap: 16px; }
+@media (min-width: 500px) {
+  .acc-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 24px 16px 40px;
+  border-top: 3px solid var(--ink);
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .float, .timeline.active { animation: none !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <svg width="28" height="24" viewBox="0 0 28 24" xmlns="http://www.w3.org/2000/svg" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+      <ellipse cx="14" cy="16" rx="8" ry="6" fill="#3E3A39"/>
+      <circle cx="10" cy="12" r="3.5" fill="white" stroke="#3E3A39" stroke-width="1"/>
+      <circle cx="18" cy="12" r="3.5" fill="white" stroke="#3E3A39" stroke-width="1"/>
+      <circle cx="9" cy="11.5" r="1" fill="#3E3A39"/>
+      <circle cx="17" cy="11.5" r="1" fill="#3E3A39"/>
+    </svg>
+    九州小旅
+  </div>
+  <div class="links">
+    <a href="#home">首頁</a>
+    <a href="#flights">航班</a>
+    <a href="#itinerary">行程</a>
+    <a href="#todo">待辦</a>
+    <a href="#stay">住宿</a>
+  </div>
+</nav>
+
+<main>
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <svg class="float" width="180" height="120" viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 8px;">
+      <!-- Lying black & white cat, no background -->
+      <ellipse cx="90" cy="78" rx="50" ry="28" fill="#3E3A39" stroke="#3E3A39" stroke-width="3"/>
+      <ellipse cx="70" cy="70" rx="22" ry="18" fill="white" stroke="#3E3A39" stroke-width="3"/>
+      <ellipse cx="110" cy="70" rx="22" ry="18" fill="white" stroke="#3E3A39" stroke-width="3"/>
+      <circle cx="64" cy="68" r="5" fill="#3E3A39"/>
+      <circle cx="104" cy="68" r="5" fill="#3E3A39"/>
+      <circle cx="65" cy="67" r="1.5" fill="white"/>
+      <circle cx="105" cy="67" r="1.5" fill="white"/>
+      <path d="M78 82 Q90 90 102 82" fill="none" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/>
+      <polygon points="58,62 48,40 72,60" fill="#3E3A39" stroke="#3E3A39" stroke-width="2"/>
+      <polygon points="122,62 132,40 108,60" fill="#3E3A39" stroke="#3E3A39" stroke-width="2"/>
+      <polygon points="60,58 52,46 70,58" fill="#F2A497"/>
+      <polygon points="120,58 128,46 110,58" fill="#F2A497"/>
+      <!-- Small fish -->
+      <ellipse cx="140" cy="40" rx="10" ry="5" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2"/>
+      <path d="M150 40 L158 35 L158 45 Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2"/>
+    </svg>
+    <h1>九州小旅</h1>
+    <div class="sub">福岡進出 · 熊本 · 黑川溫泉 · 長崎原爆資料館 · 軍艦島 · 貓島 · 貓島</div>
+    <div class="countdown" id="countdown">出發倒數計算中…</div>
+    <p style="margin-top:12px; font-size:0.95rem;">11月22日 – 11月28日 · 鐵路＋巴士</p>
+  </section>
+
+  <!-- Flights -->
+  <section id="flights">
+    <h2 style="margin-bottom:16px; font-size:1.5rem;"><svg width="48" height="40" viewBox="0 0 48 40" xmlns="http://www.w3.org/2000/svg" style="display:inline-block; vertical-align:middle; margin-right:6px;">
+  <ellipse cx="24" cy="26" rx="14" ry="10" fill="#3E3A39" stroke="#3E3A39" stroke-width="2"/>
+  <circle cx="18" cy="20" r="6" fill="white" stroke="#3E3A39" stroke-width="2"/>
+  <circle cx="30" cy="20" r="6" fill="white" stroke="#3E3A39" stroke-width="2"/>
+  <circle cx="16" cy="19" r="2" fill="#3E3A39"/>
+  <circle cx="28" cy="19" r="2" fill="#3E3A39"/>
+  <polygon points="14,16 10,8 18,16" fill="#3E3A39"/>
+  <polygon points="34,16 38,8 30,16" fill="#3E3A39"/>
+</svg>✈️ 航班資訊</h2>
+    <div class="flight-grid">
+      <div class="card" style="background:#A8D3E6;">
+        <h3>去程 · UO638 · 11/22 週日</h3>
+        <p><strong>HKG 12:55 → FUK 17:00</strong></p>
+        <p>香港國際機場 客運大樓 2</p>
+        <p>福岡國際機場 國際線航廈</p>
+        <p style="margin-top:8px; font-size:0.9rem;">Fare Class: U · 隨心飛</p>
+        <p style="margin-top:6px; font-size:0.9rem;">落地後：地鐵／接駁 → 博多 → 九州新幹線往熊本</p>
+      </div>
+      <div class="card" style="background:#F6D27A;">
+        <h3>回程 · UO601 · 11/28 週六</h3>
+        <p><strong>FUK 12:50 → HKG 15:50</strong></p>
+        <p>福岡國際機場 國際線航廈</p>
+        <p>香港國際機場 客運大樓 1</p>
+        <p style="margin-top:8px; font-size:0.9rem;">Fare Class: U · 隨心飛</p>
+        <p style="margin-top:6px; font-size:0.9rem;">建議提前出發前往機場</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Itinerary -->
+  <section id="itinerary">
+    <h2 style="margin-bottom:16px; font-size:1.5rem;"><svg width="48" height="40" viewBox="0 0 48 40" xmlns="http://www.w3.org/2000/svg" style="display:inline-block; vertical-align:middle; margin-right:6px;">
+  <ellipse cx="24" cy="26" rx="14" ry="10" fill="#3E3A39" stroke="#3E3A39" stroke-width="2"/>
+  <circle cx="18" cy="20" r="6" fill="white" stroke="#3E3A39" stroke-width="2"/>
+  <circle cx="30" cy="20" r="6" fill="white" stroke="#3E3A39" stroke-width="2"/>
+  <circle cx="16" cy="19" r="2" fill="#3E3A39"/>
+  <circle cx="28" cy="19" r="2" fill="#3E3A39"/>
+  <polygon points="14,16 10,8 18,16" fill="#3E3A39"/>
+  <polygon points="34,16 38,8 30,16" fill="#3E3A39"/>
+</svg>📅 每日行程</h2>
+    <div class="date-tabs" id="dateTabs"></div>
+    <div class="timeline-wrap" id="timelines"></div>
+  </section>
+
+  <!-- Todo -->
+  <section id="todo">
+    <h2 style="margin-bottom:16px; font-size:1.5rem;"><svg width="48" height="40" viewBox="0 0 48 40" xmlns="http://www.w3.org/2000/svg" style="display:inline-block; vertical-align:middle; margin-right:6px;">
+  <ellipse cx="24" cy="26" rx="14" ry="10" fill="#3E3A39" stroke="#3E3A39" stroke-width="2"/>
+  <circle cx="18" cy="20" r="6" fill="white" stroke="#3E3A39" stroke-width="2"/>
+  <circle cx="30" cy="20" r="6" fill="white" stroke="#3E3A39" stroke-width="2"/>
+  <circle cx="16" cy="19" r="2" fill="#3E3A39"/>
+  <circle cx="28" cy="19" r="2" fill="#3E3A39"/>
+  <polygon points="14,16 10,8 18,16" fill="#3E3A39"/>
+  <polygon points="34,16 38,8 30,16" fill="#3E3A39"/>
+</svg>✅ 待辦清單</h2>
+    <div class="card">
+      <div class="todo-item"><input type="checkbox" id="t1"><label for="t1">確認金巴澳門→香港機場時間</label></div>
+      <div class="todo-item"><input type="checkbox" id="t2"><label for="t2">福岡機場→熊本新幹線車票</label></div>
+      <div class="todo-item"><input type="checkbox" id="t3"><label for="t3">黑川溫泉日歸巴士預約（九州橫斷巴士）</label></div>
+      <div class="todo-item"><input type="checkbox" id="t4"><label for="t4">入湯手形（多湯通票）準備</label></div>
+      <div class="todo-item"><input type="checkbox" id="t5"><label for="t5">軍艦島登島預約（天氣視情況）</label></div>
+      <div class="todo-item"><input type="checkbox" id="t9"><label for="t9">長崎原爆資料館參觀時間確認</label></div>
+      <div class="todo-item"><input type="checkbox" id="t6"><label for="t6">JR 或 SUNQ Pass 確認</label></div>
+      <div class="todo-item"><input type="checkbox" id="t7"><label for="t7">行李宅急便（如有需要）</label></div>
+      <div class="todo-item"><input type="checkbox" id="t8"><label for="t8">相島（貓島）渡輪時刻確認</label></div>
+    </div>
+  </section>
+
+  <!-- Stay -->
+  <section id="stay">
+    <h2 style="margin-bottom:16px; font-size:1.5rem;"><svg width="48" height="40" viewBox="0 0 48 40" xmlns="http://www.w3.org/2000/svg" style="display:inline-block; vertical-align:middle; margin-right:6px;">
+  <ellipse cx="24" cy="26" rx="14" ry="10" fill="#3E3A39" stroke="#3E3A39" stroke-width="2"/>
+  <circle cx="18" cy="20" r="6" fill="white" stroke="#3E3A39" stroke-width="2"/>
+  <circle cx="30" cy="20" r="6" fill="white" stroke="#3E3A39" stroke-width="2"/>
+  <circle cx="16" cy="19" r="2" fill="#3E3A39"/>
+  <circle cx="28" cy="19" r="2" fill="#3E3A39"/>
+  <polygon points="14,16 10,8 18,16" fill="#3E3A39"/>
+  <polygon points="34,16 38,8 30,16" fill="#3E3A39"/>
+</svg>🏠 住宿資訊</h2>
+    <div class="acc-grid">
+      <div class="card" style="background:#B9DAA5;">
+        <h3>天然温泉 六花の湯 ドーミーイン熊本</h3>
+        <p><strong>11/22（入住 下午8:00後）– 11/24（退房 上午11:00）</strong></p>
+        <p style="margin-top:6px; font-size:0.9rem;">方便黑川日歸早班巴士</p>
+      </div>
+      <div class="card" style="background:#F2A497;">
+        <h3>長崎（11/24–11/25）</h3>
+        <p>建議住長崎站或中華街附近</p>
+        <p style="margin-top:6px; font-size:0.95rem;">方便前往軍艦島碼頭</p>
+      </div>
+      <div class="card" style="background:#A8D3E6;">
+        <h3>福岡（11/26–11/28）</h3>
+        <p>建議住博多或天神</p>
+        <p style="margin-top:6px; font-size:0.95rem;">方便貓島行程與機場進出</p>
+      </div>
+    </div>
+    <p style="margin-top:12px; font-size:0.9rem; text-align:center;">黑川為日歸，無需過夜</p>
+  </section>
+</main>
+
+
+<div style="text-align:center; margin:16px 0;">
+  <svg width="60" height="50" viewBox="0 0 60 50" xmlns="http://www.w3.org/2000/svg" class="float" style="display:inline-block; margin:0 8px;">
+    <ellipse cx="30" cy="32" rx="18" ry="12" fill="#F6D27A" stroke="#3E3A39" stroke-width="2.5"/>
+    <circle cx="22" cy="24" r="7" fill="white" stroke="#3E3A39" stroke-width="2"/>
+    <circle cx="38" cy="24" r="7" fill="white" stroke="#3E3A39" stroke-width="2"/>
+    <circle cx="20" cy="23" r="2.5" fill="#3E3A39"/>
+    <circle cx="36" cy="23" r="2.5" fill="#3E3A39"/>
+    <polygon points="16,20 12,10 22,20" fill="#F2A497" stroke="#3E3A39" stroke-width="1.5"/>
+    <polygon points="44,20 48,10 38,20" fill="#F2A497" stroke="#3E3A39" stroke-width="1.5"/>
+  </svg>
+  <svg width="60" height="50" viewBox="0 0 60 50" xmlns="http://www.w3.org/2000/svg" class="float" style="display:inline-block; margin:0 8px; animation-delay:0.5s;">
+    <ellipse cx="30" cy="32" rx="18" ry="12" fill="#B9DAA5" stroke="#3E3A39" stroke-width="2.5"/>
+    <circle cx="22" cy="24" r="7" fill="white" stroke="#3E3A39" stroke-width="2"/>
+    <circle cx="38" cy="24" r="7" fill="white" stroke="#3E3A39" stroke-width="2"/>
+    <circle cx="20" cy="23" r="2.5" fill="#3E3A39"/>
+    <circle cx="36" cy="23" r="2.5" fill="#3E3A39"/>
+    <polygon points="16,20 12,10 22,20" fill="#A8D3E6" stroke="#3E3A39" stroke-width="1.5"/>
+    <polygon points="44,20 48,10 38,20" fill="#A8D3E6" stroke="#3E3A39" stroke-width="1.5"/>
+  </svg>
+</div>
+<footer>
+  小小貓陪你去九州 · 和紙白底 · 繪本風<br>
+  資料以出發前確認為準
+</footer>
+
+<script>
+// Countdown to 2026-11-22 00:00 CST (approx)
+const target = new Date('2026-11-22T00:00:00+08:00').getTime();
+function updateCountdown() {
+  const now = Date.now();
+  const diff = target - now;
+  const el = document.getElementById('countdown');
+  if (diff <= 0) {
+    el.textContent = '出發日到了！';
+    return;
+  }
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  el.textContent = `還有 ${days} 天 ${hours} 小時`;
+}
+updateCountdown();
+setInterval(updateCountdown, 60000);
+
+// Itinerary data
+const days = [
+  {
+    date: '11/22',
+    title: '抵達熊本',
+    items: [
+      { time: '早上', tag: 'bus', tagText: '金巴', text: '澳門 → 香港機場' },
+      { time: '12:55', tag: 'flight', tagText: 'UO638', text: 'HKG 客運大樓2 起飛' },
+      { time: '17:00', tag: 'flight', tagText: '抵達', text: '福岡機場國際線航廈' },
+      { time: '傍晚', tag: 'train', tagText: '新幹線', text: '博多 → 熊本站', must: true },
+      { time: '晚上', tag: 'walk', tagText: '入住', text: 'ドーミーイン熊本（下午8:00後可入住）' }
+    ]
+  },
+  {
+    date: '11/23',
+    title: '黑川溫泉日歸',
+    items: [
+      { time: '早上', tag: 'bus', tagText: '巴士', text: '熊本出發 → 黑川溫泉（九州橫斷巴士）', must: true },
+      { time: '中午', tag: 'walk', tagText: '溫泉', text: '入湯手形多湯巡禮，日歸溫泉' },
+      { time: '下午', tag: 'walk', tagText: '散步', text: '黑川溪谷散步，看秋色' },
+      { time: '傍晚', tag: 'bus', tagText: '巴士', text: '返回熊本（住ドーミーイン）' }
+    ]
+  },
+  {
+    date: '11/24',
+    title: '前往長崎',
+    items: [
+      { time: '早上', tag: 'train', tagText: '新幹線', text: '熊本 → 博多 → 長崎（西九州新幹線）', must: true },
+      { time: '中午', tag: 'walk', tagText: '步行', text: '入住長崎住宿' },
+      { time: '下午', tag: 'walk', tagText: '必去', text: '長崎原爆資料館', must: true },
+      { time: '晚上', tag: 'walk', tagText: '美食', text: '中華街或出島附近晚餐' }
+    ]
+  },
+  {
+    date: '11/25',
+    title: '軍艦島・原爆',
+    items: [
+      { time: '早上', tag: 'bus', tagText: '巴士', text: '前往軍艦島登島碼頭', must: true },
+      { time: '上午', tag: 'walk', tagText: '登島', text: '軍艦島巡禮（視天氣）', must: true },
+      { time: '下午', tag: 'walk', tagText: '必去', text: '長崎原爆資料館（如未看完）', must: true },
+      { time: '晚上', tag: 'walk', tagText: '自由', text: '長崎自由時間' }
+    ]
+  },
+  {
+    date: '11/26',
+    title: '前往福岡',
+    items: [
+      { time: '早上', tag: 'train', tagText: '新幹線', text: '長崎 → 博多', must: true },
+      { time: '下午', tag: 'walk', tagText: '步行', text: '博多／天神購物散步' },
+      { time: '晚上', tag: 'walk', tagText: '美食', text: '屋台或博多美食' }
+    ]
+  },
+  {
+    date: '11/27',
+    title: '福岡・貓島',
+    items: [
+      { time: '早上', tag: 'train', tagText: '電車', text: '福岡 → 新宮港（相島貓島方向）', must: true },
+      { time: '上午', tag: 'bus', tagText: '渡輪', text: '搭渡輪前往相島（貓島）' },
+      { time: '中午', tag: 'walk', tagText: '貓島', text: '相島散步、與貓咪互動、看海', must: true },
+      { time: '下午', tag: 'bus', tagText: '渡輪', text: '渡輪返回新宮，再回福岡' },
+      { time: '晚上', tag: 'walk', tagText: '自由', text: '福岡市區自由活動／休息' }
+    ]
+  },
+  {
+    date: '11/28',
+    title: '福岡自由・出發',
+    items: [
+      { time: '早上', tag: 'walk', tagText: '自由', text: '福岡最後散步或購物' },
+      { time: '中午', tag: 'train', tagText: '地鐵', text: '前往福岡機場（建議提早）' },
+      { time: '12:50', tag: 'flight', tagText: 'UO601', text: '福岡機場起飛 → HKG 15:50' }
+    ]
+  }
+];
+
+// Render tabs and timelines
+const tabsEl = document.getElementById('dateTabs');
+const timelinesEl = document.getElementById('timelines');
+
+days.forEach((day, idx) => {
+  const tab = document.createElement('button');
+  tab.className = 'date-tab' + (idx === 0 ? ' active' : '');
+  tab.textContent = day.date + ' ' + day.title.split('・')[0];
+  tab.onclick = () => switchDay(idx);
+  tabsEl.appendChild(tab);
+
+  const tl = document.createElement('div');
+  tl.className = 'timeline' + (idx === 0 ? ' active' : '');
+  tl.innerHTML = `<h3 style="margin-bottom:12px;">${day.date} ${day.title}</h3>` +
+    day.items.map(item => `
+      <div class="time-item">
+        <div class="time">${item.time}</div>
+        <div class="content">
+          <span class="tag ${item.tag}">${item.tagText}</span>
+          ${item.text}
+          ${item.must ? '<span class="must">必去</span>' : ''}
+        </div>
+      </div>
+    `).join('');
+  timelinesEl.appendChild(tl);
+});
+
+function switchDay(idx) {
+  document.querySelectorAll('.date-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  document.querySelectorAll('.timeline').forEach((t, i) => {
+    t.classList.remove('active');
+    if (i === idx) {
+      // Force reflow for animation
+      void t.offsetWidth;
+      t.classList.add('active');
+    }
+  });
+}
+
+// Todo persistence (simple localStorage)
+document.querySelectorAll('.todo-item input').forEach(cb => {
+  const id = cb.id;
+  if (localStorage.getItem(id) === '1') {
+    cb.checked = true;
+    cb.parentElement.classList.add('done');
+  }
+  cb.addEventListener('change', () => {
+    cb.parentElement.classList.toggle('done', cb.checked);
+    localStorage.setItem(id, cb.checked ? '1' : '0');
+  });
+});
+</script>
+
+</body>
+</html>
