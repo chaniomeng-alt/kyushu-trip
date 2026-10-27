@@ -74,9 +74,15 @@ section { margin-bottom: 48px; }
   background: var(--yellow);
   border: 3px solid var(--ink);
   border-radius: 20px;
-  padding: 10px 18px;
-  font-size: 1.2rem;
+  padding: 12px 20px;
+  font-size: 1.35rem;
   font-weight: bold;
+  animation: countdownPulse 2s ease-in-out infinite;
+  letter-spacing: 0.5px;
+}
+@keyframes countdownPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
 }
 .float { animation: float 4s ease-in-out infinite; }
 @keyframes float {
@@ -208,12 +214,16 @@ footer {
 
 <nav>
   <div class="logo">
-    <svg width="28" height="24" viewBox="0 0 28 24" xmlns="http://www.w3.org/2000/svg" style="display:inline-block; vertical-align:middle; margin-right:4px;">
-      <ellipse cx="14" cy="16" rx="8" ry="6" fill="#3E3A39"/>
-      <circle cx="10" cy="12" r="3.5" fill="white" stroke="#3E3A39" stroke-width="1"/>
-      <circle cx="18" cy="12" r="3.5" fill="white" stroke="#3E3A39" stroke-width="1"/>
-      <circle cx="9" cy="11.5" r="1" fill="#3E3A39"/>
-      <circle cx="17" cy="11.5" r="1" fill="#3E3A39"/>
+    <svg width="32" height="28" viewBox="0 0 32 28" xmlns="http://www.w3.org/2000/svg" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+      <ellipse cx="16" cy="18" rx="10" ry="7" fill="#3E3A39"/>
+      <ellipse cx="16" cy="14" rx="8" ry="6" fill="white" stroke="#3E3A39" stroke-width="1.5"/>
+      <polygon points="10,10 7,3 13,9" fill="#3E3A39"/>
+      <polygon points="22,10 25,3 19,9" fill="#3E3A39"/>
+      <polygon points="11,9 9,5 13,9" fill="#F2A497"/>
+      <polygon points="21,9 23,5 19,9" fill="#F2A497"/>
+      <path d="M12 13 Q16 16 20 13" fill="none" stroke="#3E3A39" stroke-width="1.2" stroke-linecap="round"/>
+      <circle cx="13" cy="12" r="0.8" fill="#3E3A39"/>
+      <circle cx="19" cy="12" r="0.8" fill="#3E3A39"/>
     </svg>
     九州小旅
   </div>
@@ -229,23 +239,37 @@ footer {
 <main>
   <!-- Hero -->
   <section id="home" class="hero">
-    <svg class="float" width="180" height="120" viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 8px;">
-      <!-- Lying black & white cat, no background -->
-      <ellipse cx="90" cy="78" rx="50" ry="28" fill="#3E3A39" stroke="#3E3A39" stroke-width="3"/>
-      <ellipse cx="70" cy="70" rx="22" ry="18" fill="white" stroke="#3E3A39" stroke-width="3"/>
-      <ellipse cx="110" cy="70" rx="22" ry="18" fill="white" stroke="#3E3A39" stroke-width="3"/>
-      <circle cx="64" cy="68" r="5" fill="#3E3A39"/>
-      <circle cx="104" cy="68" r="5" fill="#3E3A39"/>
-      <circle cx="65" cy="67" r="1.5" fill="white"/>
-      <circle cx="105" cy="67" r="1.5" fill="white"/>
-      <path d="M78 82 Q90 90 102 82" fill="none" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/>
-      <polygon points="58,62 48,40 72,60" fill="#3E3A39" stroke="#3E3A39" stroke-width="2"/>
-      <polygon points="122,62 132,40 108,60" fill="#3E3A39" stroke="#3E3A39" stroke-width="2"/>
-      <polygon points="60,58 52,46 70,58" fill="#F2A497"/>
-      <polygon points="120,58 128,46 110,58" fill="#F2A497"/>
-      <!-- Small fish -->
-      <ellipse cx="140" cy="40" rx="10" ry="5" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2"/>
-      <path d="M150 40 L158 35 L158 45 Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2"/>
+    <svg class="float" width="200" height="140" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 8px;">
+      <!-- Refined lying cat - picture book style -->
+      <!-- Body -->
+      <ellipse cx="100" cy="95" rx="58" ry="32" fill="#3E3A39" stroke="#3E3A39" stroke-width="2.5"/>
+      <!-- White belly patch -->
+      <ellipse cx="100" cy="102" rx="36" ry="16" fill="white"/>
+      <!-- Head -->
+      <ellipse cx="100" cy="68" rx="36" ry="30" fill="white" stroke="#3E3A39" stroke-width="2.5"/>
+      <!-- Ears -->
+      <polygon points="72,48 58,22 84,44" fill="#3E3A39" stroke="#3E3A39" stroke-width="1.5"/>
+      <polygon points="128,48 142,22 116,44" fill="#3E3A39" stroke="#3E3A39" stroke-width="1.5"/>
+      <polygon points="74,46 64,30 82,44" fill="#F2A497"/>
+      <polygon points="126,46 136,30 118,44" fill="#F2A497"/>
+      <!-- Eyes (closed happy) -->
+      <path d="M80 66 Q88 72 96 66" fill="none" stroke="#3E3A39" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M104 66 Q112 72 120 66" fill="none" stroke="#3E3A39" stroke-width="2.2" stroke-linecap="round"/>
+      <!-- Nose -->
+      <polygon points="98,74 102,74 100,78" fill="#F2A497"/>
+      <!-- Mouth -->
+      <path d="M92 80 Q100 86 108 80" fill="none" stroke="#3E3A39" stroke-width="1.8" stroke-linecap="round"/>
+      <!-- Whiskers -->
+      <path d="M70 72 L48 68" stroke="#3E3A39" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M70 78 L46 82" stroke="#3E3A39" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M130 72 L152 68" stroke="#3E3A39" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M130 78 L154 82" stroke="#3E3A39" stroke-width="1.2" stroke-linecap="round"/>
+      <!-- Tail -->
+      <path d="M148 100 Q170 88 178 70" fill="none" stroke="#3E3A39" stroke-width="6" stroke-linecap="round"/>
+      <path d="M148 100 Q170 88 178 70" fill="none" stroke="#FFFCF6" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Small paw -->
+      <ellipse cx="78" cy="108" rx="8" ry="5" fill="#3E3A39"/>
+      <ellipse cx="122" cy="108" rx="8" ry="5" fill="#3E3A39"/>
     </svg>
     <h1>九州小旅</h1>
     <div class="sub">福岡進出 · 熊本 · 黑川溫泉 · 長崎原爆資料館 · 軍艦島 · 貓島 · 貓島</div>
@@ -341,9 +365,10 @@ footer {
         <p style="margin-top:6px; font-size:0.9rem;">方便黑川日歸早班巴士</p>
       </div>
       <div class="card" style="background:#F2A497;">
-        <h3>長崎（11/24–11/25）</h3>
-        <p>建議住長崎站或中華街附近</p>
-        <p style="margin-top:6px; font-size:0.95rem;">方便前往軍艦島碼頭</p>
+        <h3>天然温泉 鶴港の湯 ドーミーインPREMIUM長崎駅前</h3>
+        <p><strong>11/24（入住 15:00後）– 11/26（退房 11:00前）</strong></p>
+        <p style="margin-top:6px;">2晚 · 標準雙人房 · 含早餐</p>
+        <p style="margin-top:6px; font-size:0.9rem;">長崎站前，方便軍艦島碼頭</p>
       </div>
       <div class="card" style="background:#A8D3E6;">
         <h3>福岡（11/26–11/28）</h3>
@@ -394,10 +419,12 @@ function updateCountdown() {
   }
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  el.textContent = `還有 ${days} 天 ${hours} 小時`;
+  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const secs = Math.floor((diff % (1000 * 60)) / 1000);
+  el.textContent = `還有 ${days} 天 ${hours} 時 ${mins} 分 ${secs} 秒`;
 }
 updateCountdown();
-setInterval(updateCountdown, 60000);
+setInterval(updateCountdown, 1000);
 
 // Itinerary data
 const days = [
