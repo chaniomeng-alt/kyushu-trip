@@ -2,556 +2,619 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>九州小旅｜11/22–11/28</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #FFFCF6;
-  --ink: #3E3A39;
-  --coral: #F2A497;
-  --yellow: #F6D27A;
-  --blue: #A8D3E6;
-  --green: #B9DAA5;
-  --radius: 28px;
+  --bg: #F7F3EA;
+  --card: #FFFBF0;
+  --line: #DDD6BF;
+  --ink: #6B5D4F;
+  --soft: #A39886;
+  --pri: #E89F9F;
+  --pri-d: #CE8080;
+  --tint: #FBEBE5;
+  --r: 30px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { font-size: 16px; }
 body {
-  font-family: 'Huninn', sans-serif;
+  font-family: 'Noto Sans TC', 'Nunito', sans-serif;
   background: var(--bg);
   color: var(--ink);
-  line-height: 1.6;
-  font-size: 16px;
+  line-height: 1.5;
+  min-height: 100vh;
 }
-a { color: inherit; text-decoration: none; }
-img, svg { max-width: 100%; display: block; }
+button { font-family: inherit; color: inherit; cursor: pointer; border: none; background: none; }
+svg.ic { width: 1.25em; height: 1.25em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 
-/* Fixed Nav */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  background: var(--bg);
-  border-bottom: 3px solid var(--ink);
-  z-index: 100;
-  padding: 12px 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-nav .logo { font-size: 1.3rem; font-weight: bold; }
-nav .links { display: flex; gap: 12px; flex-wrap: wrap; }
-nav .links a {
-  padding: 6px 12px;
-  border: 3px solid var(--ink);
-  border-radius: 20px;
-  background: var(--yellow);
-  font-size: 0.95rem;
-}
-nav .links a:active { background: var(--coral); }
+main { max-width: 480px; margin: 0 auto; padding: 20px 16px 130px; }
+.view { display: none; }
+.view.active { display: block; animation: pop .35s ease; }
+@keyframes pop { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
-/* Main */
-main { padding: 80px 16px 40px; max-width: 720px; margin: 0 auto; }
-section { margin-bottom: 48px; }
+h1.page { font-size: 1.7rem; font-weight: 700; }
+.page-sub { color: var(--soft); font-size: .92rem; margin-bottom: 18px; }
+.page-head { position: relative; margin-bottom: 8px; }
+.page-head .sticker { position: absolute; right: 0; top: -6px; }
 
-/* Hero */
-.hero {
-  text-align: center;
-  border: 3px solid var(--ink);
-  border-radius: var(--radius);
-  background: var(--blue);
-  padding: 24px 16px;
-  margin-bottom: 32px;
-}
-.hero h1 { font-size: 2rem; margin: 12px 0 8px; }
-.hero .sub { font-size: 1.1rem; margin-bottom: 16px; }
-.countdown {
-  display: inline-block;
-  background: var(--yellow);
-  border: 3px solid var(--ink);
-  border-radius: 20px;
-  padding: 12px 20px;
-  font-size: 1.35rem;
-  font-weight: bold;
-  animation: countdownPulse 2s ease-in-out infinite;
-  letter-spacing: 0.5px;
-}
-@keyframes countdownPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.06); }
-}
-.float { animation: float 4s ease-in-out infinite; }
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-/* Cards */
+/* cards: thick beige border + offset shadow, like the reference */
 .card {
-  border: 3px solid var(--ink);
-  border-radius: var(--radius);
+  background: var(--card);
+  border: 3px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: 0 5px 0 #E6E0CB;
   padding: 18px;
-  margin-bottom: 16px;
-  background: white;
-}
-.card h3 { margin-bottom: 8px; font-size: 1.2rem; }
-.flight-grid { display: grid; gap: 16px; }
-@media (min-width: 600px) {
-  .flight-grid { grid-template-columns: 1fr 1fr; }
+  margin-bottom: 20px;
+  position: relative;
 }
 
-/* Date tabs */
-.date-tabs {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 12px;
-  margin-bottom: 16px;
-  -webkit-overflow-scrolling: touch;
-}
-.date-tab {
-  flex: 0 0 auto;
-  border: 3px solid var(--ink);
-  border-radius: 22px;
-  padding: 10px 14px;
-  background: white;
-  cursor: pointer;
-  font-size: 0.95rem;
-  white-space: nowrap;
-}
-.date-tab.active {
-  background: var(--coral);
-  color: white;
-}
-.timeline-wrap { position: relative; min-height: 200px; }
-.timeline {
-  display: none;
-  border: 3px solid var(--ink);
-  border-radius: var(--radius);
-  padding: 16px;
-  background: white;
-}
-.timeline.active {
-  display: block;
-  animation: bounce 0.45s cubic-bezier(.36,.07,.19,.97);
-}
-@keyframes bounce {
-  0% { transform: scale(0.96); }
-  40% { transform: scale(1.03); }
-  70% { transform: scale(0.99); }
-  100% { transform: scale(1); }
-}
-.time-item {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 14px;
-  align-items: flex-start;
-}
-.time-item .time {
-  flex: 0 0 72px;
-  font-weight: bold;
-  background: var(--yellow);
-  border: 2px solid var(--ink);
-  border-radius: 12px;
-  padding: 4px 6px;
-  text-align: center;
-  font-size: 0.85rem;
-}
-.time-item .content { flex: 1; }
-.tag {
-  display: inline-block;
-  border: 2px solid var(--ink);
-  border-radius: 12px;
-  padding: 2px 8px;
-  font-size: 0.8rem;
-  margin-right: 6px;
-  margin-bottom: 4px;
-}
-.tag.train { background: var(--blue); }
-.tag.bus { background: var(--green); }
-.tag.walk { background: var(--yellow); }
-.tag.flight { background: var(--coral); }
-.must { background: var(--coral); color: white; border-radius: 10px; padding: 1px 6px; font-size: 0.75rem; margin-left: 4px; }
+/* countdown */
+.count { padding: 0; overflow: hidden; }
+.count-top { padding: 18px 20px 20px; }
+.count-label { font-size: .9rem; color: var(--soft); }
+.count-time { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 2.5rem; color: var(--pri); line-height: 1.2; letter-spacing: 1px; }
+.count-time .u { font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 0 6px 0 3px; letter-spacing: 0; }
+.count-time .c { font-weight: 700; opacity: .6; }
+.track { height: 12px; background: #E8E3CF; border-radius: 99px; margin-top: 14px; position: relative; }
+.bar { height: 100%; width: 0; background: var(--pri); border-radius: 99px; transition: width .6s ease; }
+.plane { position: absolute; top: -13px; transform: translateX(-50%); font-size: 1.5rem; transition: left .6s ease; filter: drop-shadow(0 2px 0 rgba(0,0,0,.08)); }
+.count-foot { text-align: center; padding: 10px; background: #F6EFDC; border-top: 2px solid var(--line); font-size: .95rem; }
 
-/* Todo */
-.todo-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 2px dashed var(--ink);
+/* day chips */
+.chips { display: flex; gap: 10px; overflow-x: auto; padding: 4px 4px 14px; margin: 0 -4px 6px; scrollbar-width: none; }
+.chips::-webkit-scrollbar { display: none; }
+.chip {
+  flex: 0 0 66px; height: 78px; border-radius: 22px;
+  border: 3px solid var(--line); background: var(--card);
+  box-shadow: 0 4px 0 #E1DAC2;
+  font-family: 'Nunito', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: var(--soft); font-weight: 800; transition: transform .15s;
 }
-.todo-item input { width: 22px; height: 22px; accent-color: var(--coral); }
-.todo-item.done label { text-decoration: line-through; opacity: 0.6; }
+.chip small { font-size: .85rem; font-weight: 800; }
+.chip b { font-size: 1.7rem; line-height: 1.1; color: var(--ink); }
+.chip.active { background: var(--pri); border-color: var(--pri); box-shadow: 0 4px 0 var(--pri-d); color: #fff; }
+.chip.active b { color: #fff; }
+.chip:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--pri-d); }
 
-/* Accommodation */
-.acc-grid { display: grid; gap: 16px; }
-@media (min-width: 500px) {
-  .acc-grid { grid-template-columns: 1fr 1fr; }
-}
+/* weather */
+.weather { display: flex; align-items: center; gap: 16px; border-radius: 34px; background: #fff; }
+.w-ic { width: 66px; height: 66px; border-radius: 22px; background: var(--tint); color: var(--pri); display: grid; place-items: center; flex: none; }
+.w-ic svg { width: 34px; height: 34px; }
+.w-temp { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 2.2rem; line-height: 1; }
+.w-temp i { font-style: normal; font-size: 1.3rem; color: var(--soft); font-weight: 600; }
+.w-note { font-size: .8rem; color: var(--soft); margin-top: 4px; }
+.w-right { margin-left: auto; text-align: right; font-weight: 700; }
+.w-right small { display: block; color: var(--soft); font-weight: 500; }
 
-/* Footer */
-footer {
-  text-align: center;
-  padding: 24px 16px 40px;
-  border-top: 3px solid var(--ink);
-  margin-top: 20px;
-  font-size: 0.9rem;
+/* day card */
+.day-head { display: flex; justify-content: space-between; gap: 6px; min-height: 130px; }
+.day-date { display: flex; align-items: baseline; gap: 10px; color: var(--pri); font-family: 'Nunito', sans-serif; font-weight: 800; }
+.day-date .dow { font-size: 1.15rem; }
+.day-date .num { font-size: 2.8rem; line-height: 1; }
+.day-date .mon { font-size: 1rem; color: var(--soft); font-weight: 600; }
+.day-title { font-size: 1.55rem; font-weight: 700; margin-top: 6px; }
+.day-route { color: var(--soft); margin-top: 2px; }
+.hotel {
+  display: flex; align-items: center; gap: 10px; margin: 14px 0 20px;
+  padding: 11px 14px; border-radius: 18px; border: 2px solid #EFE8D2; background: #FFFDF6;
+  font-size: .95rem;
 }
+.hotel svg { color: var(--pri); }
+.hotel span { text-decoration: underline dotted var(--soft); text-underline-offset: 4px; }
+.sec-title { font-weight: 700; color: var(--ink); margin-bottom: 12px; }
 
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .float, .timeline.active { animation: none !important; }
-  html { scroll-behavior: auto; }
+.act {
+  display: flex; align-items: center; gap: 12px;
+  background: #fff; border: 3px solid #EFE8D2; border-radius: 22px;
+  padding: 12px 14px; margin-bottom: 12px;
 }
+.act .dot { width: 42px; height: 42px; border-radius: 50%; background: var(--pri); color: #fff; display: grid; place-items: center; flex: none; }
+.act .dot svg { width: 20px; height: 20px; }
+.act .tm { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: .9rem; color: var(--pri); }
+.act .tx { font-weight: 700; line-height: 1.35; }
+.must { display: inline-block; background: var(--pri); color: #fff; font-size: .68rem; padding: 1px 8px; border-radius: 99px; margin-left: 6px; vertical-align: 2px; font-weight: 700; }
+.opt { display: inline-block; font-size: .72rem; padding: 1px 9px; border-radius: 99px; border: 2px solid var(--pri); color: var(--pri); font-weight: 700; }
+.act.b .dot { background: #8FBFA6; }
+
+/* boarding pass */
+.pass { padding: 0; overflow: hidden; border-radius: 34px; }
+.pass-top { background: var(--pri); color: #fff; padding: 18px 22px 20px; }
+.pass-top .lbl { font-size: .78rem; letter-spacing: 2px; opacity: .85; font-family: 'Nunito', sans-serif; font-weight: 600; }
+.pass-top .rt { font-size: 1.15rem; font-weight: 700; margin-bottom: 14px; }
+.pass-main { display: flex; align-items: center; justify-content: space-between; }
+.pass-main .code { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 2.4rem; line-height: 1; }
+.pass-main small { display: block; font-size: .82rem; opacity: .85; margin-top: 6px; }
+.pass-main .tm { font-weight: 700; font-size: 1.15rem; }
+.pass-main .mid { opacity: .9; }
+.pass-main .mid svg { width: 34px; height: 34px; transform: rotate(45deg); }
+.pass-foot { display: flex; justify-content: space-between; padding: 14px 22px 16px; font-size: .85rem; color: var(--soft); }
+.pass-foot b { display: block; font-size: 1.05rem; color: var(--ink); font-family: 'Nunito', sans-serif; }
+.pass-note { padding: 0 22px 14px; font-size: .82rem; color: var(--soft); }
+
+.stay-name { font-weight: 700; font-size: 1.05rem; padding-right: 8px; }
+.stay-date { color: var(--pri); font-weight: 700; margin-top: 6px; font-size: .95rem; }
+.stay-meta { color: var(--soft); font-size: .88rem; margin-top: 4px; }
+.pill-count { display: inline-block; background: #F7EBC6; border: 2px solid #F0DFA6; border-radius: 99px; padding: 0 12px; font-size: .9rem; margin-left: 8px; font-weight: 700; }
+.sec-h { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--soft); margin: 4px 2px 14px; font-size: 1.05rem; }
+.sec-h svg { color: var(--pri); }
+
+/* todo */
+.todo { display: flex; align-items: center; gap: 12px; padding: 12px 2px; border-bottom: 2px dashed #E6DFC8; }
+.todo:last-of-type { border-bottom: none; }
+.todo input { appearance: none; width: 26px; height: 26px; border-radius: 9px; border: 3px solid var(--line); background: #fff; flex: none; display: grid; place-items: center; cursor: pointer; }
+.todo input:checked { background: var(--pri); border-color: var(--pri); }
+.todo input:checked::after { content: '✓'; color: #fff; font-weight: 800; font-size: .9rem; }
+.todo label { flex: 1; }
+.todo.done label { text-decoration: line-through; opacity: .5; }
+.todo .del { color: var(--soft); opacity: .7; padding: 4px 8px; font-size: 1.1rem; }
+.add-row { display: flex; gap: 10px; margin-top: 14px; }
+.add-row input { flex: 1; min-width: 0; border: 3px solid var(--line); background: #fff; border-radius: 18px; padding: 10px 14px; font: inherit; color: var(--ink); outline: none; }
+.add-row input:focus { border-color: var(--pri); }
+.btn { background: var(--pri); color: #fff; font-weight: 700; padding: 10px 20px; border-radius: 18px; box-shadow: 0 4px 0 var(--pri-d); }
+.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--pri-d); }
+
+/* weather grid */
+.wgrid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+.wgrid .card { margin: 0; padding: 16px; box-shadow: 0 4px 0 #E6E0CB; }
+.wgrid h3 { font-size: 1.1rem; }
+.wgrid .d { color: var(--pri); font-weight: 700; font-size: .85rem; font-family: 'Nunito', sans-serif; }
+.wgrid .t { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.6rem; margin: 8px 0 2px; }
+.wgrid p { font-size: .82rem; color: var(--soft); }
+.hint { text-align: center; color: var(--soft); font-size: .85rem; margin-top: 22px; }
+
+/* settings */
+.set-h { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.set-h .ci { width: 46px; height: 46px; border-radius: 50%; background: var(--tint); color: var(--pri); display: grid; place-items: center; }
+.set-h b { display: block; font-size: 1.05rem; }
+.set-h small { color: var(--soft); }
+.swatches { display: flex; gap: 12px; flex-wrap: wrap; }
+.sw { width: 48px; height: 48px; border-radius: 16px; border: 3px solid transparent; }
+.sw.on { outline: 4px solid var(--ink); outline-offset: 2px; }
+input[type=range] { width: 100%; accent-color: var(--pri); }
+.toggle { margin-left: auto; width: 54px; height: 30px; border-radius: 99px; background: #DDD; position: relative; transition: .2s; flex: none; }
+.toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.2); transition: .2s; }
+.toggle.on { background: var(--pri); }
+.toggle.on::after { left: 27px; }
+
+/* stickers: white outline like die-cut stickers */
+.sticker { display: block; filter: drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(0 4px 5px rgba(80,60,40,.18)); }
+.sticker svg { width: 100%; height: 100%; display: block; }
+.bob { animation: bob 4s ease-in-out infinite; }
+@keyframes bob { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-5px) rotate(1.5deg); } }
+.corner { position: absolute; right: 10px; bottom: -34px; width: 84px; height: 84px; z-index: 2; pointer-events: none; }
+
+/* bottom nav */
+nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+  max-width: 520px; margin: 0 auto;
+  background: var(--card);
+  border-radius: 36px 36px 0 0;
+  border-top: 5px solid color-mix(in srgb, var(--pri) 45%, white);
+  box-shadow: 0 -4px 18px rgba(120,100,70,.08);
+  display: flex; justify-content: space-around;
+  padding: 10px 6px calc(12px + env(safe-area-inset-bottom));
+}
+nav button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; border-radius: 22px; color: var(--soft); font-size: .78rem; min-width: 60px; }
+nav button svg { width: 26px; height: 26px; }
+nav button.active { color: var(--pri); background: var(--tint); }
+.fab {
+  position: fixed; right: 18px; bottom: 112px; z-index: 60;
+  width: 56px; height: 56px; border-radius: 50%; background: var(--pri); color: #fff;
+  box-shadow: 0 5px 0 var(--pri-d); display: grid; place-items: center;
+}
+.fab:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--pri-d); }
+
+/* petals */
+#petals { position: fixed; inset: 0; pointer-events: none; z-index: 40; overflow: hidden; display: none; }
+body.petals-on #petals { display: block; }
+.petal { position: absolute; top: -20px; background: #FFC9D3; border-radius: 80% 0 80% 0; opacity: .85; animation: fall linear infinite; }
+@keyframes fall {
+  0% { transform: translate3d(0,-20px,0) rotate(0deg); }
+  50% { transform: translate3d(40px,55vh,0) rotate(180deg); }
+  100% { transform: translate3d(-20px,110vh,0) rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) { .petal, .bob, .view.active { animation: none !important; } }
 </style>
 </head>
-<body>
-
-<nav>
-  <div class="logo">
-    <svg width="32" height="28" viewBox="0 0 32 28" xmlns="http://www.w3.org/2000/svg" style="display:inline-block; vertical-align:middle; margin-right:4px;">
-      <ellipse cx="16" cy="18" rx="10" ry="7" fill="#3E3A39"/>
-      <ellipse cx="16" cy="14" rx="8" ry="6" fill="white" stroke="#3E3A39" stroke-width="1.5"/>
-      <polygon points="10,10 7,3 13,9" fill="#3E3A39"/>
-      <polygon points="22,10 25,3 19,9" fill="#3E3A39"/>
-      <polygon points="11,9 9,5 13,9" fill="#F2A497"/>
-      <polygon points="21,9 23,5 19,9" fill="#F2A497"/>
-      <path d="M12 13 Q16 16 20 13" fill="none" stroke="#3E3A39" stroke-width="1.2" stroke-linecap="round"/>
-      <circle cx="13" cy="12" r="0.8" fill="#3E3A39"/>
-      <circle cx="19" cy="12" r="0.8" fill="#3E3A39"/>
-    </svg>
-    九州小旅
-  </div>
-  <div class="links">
-    <a href="#home">首頁</a>
-    <a href="#flights">航班</a>
-    <a href="#itinerary">行程</a>
-    <a href="#todo">待辦</a>
-    <a href="#stay">住宿</a>
-  </div>
-</nav>
+<body class="petals-on">
+<div id="petals"></div>
 
 <main>
-  <!-- Hero -->
-  <section id="home" class="hero">
-    <svg class="float" width="200" height="140" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 8px;">
-      <!-- Refined lying cat - picture book style -->
-      <!-- Body -->
-      <ellipse cx="100" cy="95" rx="58" ry="32" fill="#3E3A39" stroke="#3E3A39" stroke-width="2.5"/>
-      <!-- White belly patch -->
-      <ellipse cx="100" cy="102" rx="36" ry="16" fill="white"/>
-      <!-- Head -->
-      <ellipse cx="100" cy="68" rx="36" ry="30" fill="white" stroke="#3E3A39" stroke-width="2.5"/>
-      <!-- Ears -->
-      <polygon points="72,48 58,22 84,44" fill="#3E3A39" stroke="#3E3A39" stroke-width="1.5"/>
-      <polygon points="128,48 142,22 116,44" fill="#3E3A39" stroke="#3E3A39" stroke-width="1.5"/>
-      <polygon points="74,46 64,30 82,44" fill="#F2A497"/>
-      <polygon points="126,46 136,30 118,44" fill="#F2A497"/>
-      <!-- Eyes (closed happy) -->
-      <path d="M80 66 Q88 72 96 66" fill="none" stroke="#3E3A39" stroke-width="2.2" stroke-linecap="round"/>
-      <path d="M104 66 Q112 72 120 66" fill="none" stroke="#3E3A39" stroke-width="2.2" stroke-linecap="round"/>
-      <!-- Nose -->
-      <polygon points="98,74 102,74 100,78" fill="#F2A497"/>
-      <!-- Mouth -->
-      <path d="M92 80 Q100 86 108 80" fill="none" stroke="#3E3A39" stroke-width="1.8" stroke-linecap="round"/>
-      <!-- Whiskers -->
-      <path d="M70 72 L48 68" stroke="#3E3A39" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M70 78 L46 82" stroke="#3E3A39" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M130 72 L152 68" stroke="#3E3A39" stroke-width="1.2" stroke-linecap="round"/>
-      <path d="M130 78 L154 82" stroke="#3E3A39" stroke-width="1.2" stroke-linecap="round"/>
-      <!-- Tail -->
-      <path d="M148 100 Q170 88 178 70" fill="none" stroke="#3E3A39" stroke-width="6" stroke-linecap="round"/>
-      <path d="M148 100 Q170 88 178 70" fill="none" stroke="#FFFCF6" stroke-width="2.5" stroke-linecap="round"/>
-      <!-- Small paw -->
-      <ellipse cx="78" cy="108" rx="8" ry="5" fill="#3E3A39"/>
-      <ellipse cx="122" cy="108" rx="8" ry="5" fill="#3E3A39"/>
-    </svg>
-    <h1>九州小旅</h1>
-    <div class="sub">福岡進出 · 熊本 · 黑川溫泉 · 長崎原爆資料館 · 軍艦島 · 貓島 · 貓島</div>
-    <div class="countdown" id="countdown">出發倒數計算中…</div>
-    <p style="margin-top:12px; font-size:0.95rem;">11月22日 – 11月28日 · 鐵路＋巴士</p>
-  </section>
-
-  <!-- Flights -->
-  <section id="flights">
-    <h2 style="margin-bottom:16px; font-size:1.5rem;"><svg width="48" height="40" viewBox="0 0 48 40" xmlns="http://www.w3.org/2000/svg" style="display:inline-block; vertical-align:middle; margin-right:6px;">
-  <ellipse cx="24" cy="26" rx="14" ry="10" fill="#3E3A39" stroke="#3E3A39" stroke-width="2"/>
-  <circle cx="18" cy="20" r="6" fill="white" stroke="#3E3A39" stroke-width="2"/>
-  <circle cx="30" cy="20" r="6" fill="white" stroke="#3E3A39" stroke-width="2"/>
-  <circle cx="16" cy="19" r="2" fill="#3E3A39"/>
-  <circle cx="28" cy="19" r="2" fill="#3E3A39"/>
-  <polygon points="14,16 10,8 18,16" fill="#3E3A39"/>
-  <polygon points="34,16 38,8 30,16" fill="#3E3A39"/>
-</svg>✈️ 航班資訊</h2>
-    <div class="flight-grid">
-      <div class="card" style="background:#A8D3E6;">
-        <h3>去程 · UO638 · 11/22 週日</h3>
-        <p><strong>HKG 12:55 → FUK 17:00</strong></p>
-        <p>香港國際機場 客運大樓 2</p>
-        <p>福岡國際機場 國際線航廈</p>
-        <p style="margin-top:8px; font-size:0.9rem;">Fare Class: U · 隨心飛</p>
-        <p style="margin-top:6px; font-size:0.9rem;">落地後：地鐵／接駁 → 博多 → 九州新幹線往熊本</p>
+  <!-- 行程 -->
+  <section class="view active" id="v-trip">
+    <div class="card count">
+      <div class="count-top">
+        <div class="count-label">距離出發</div>
+        <div class="count-time" id="cd">-- <span class="u">天</span>00<span class="c"> : </span>00<span class="c"> : </span>00</div>
+        <div class="track"><div class="bar" id="bar"></div><div class="plane" id="plane">✈️</div></div>
       </div>
-      <div class="card" style="background:#F6D27A;">
-        <h3>回程 · UO601 · 11/28 週六</h3>
-        <p><strong>FUK 12:50 → HKG 15:50</strong></p>
-        <p>福岡國際機場 國際線航廈</p>
-        <p>香港國際機場 客運大樓 1</p>
-        <p style="margin-top:8px; font-size:0.9rem;">Fare Class: U · 隨心飛</p>
-        <p style="margin-top:6px; font-size:0.9rem;">建議提前出發前往機場</p>
-      </div>
+      <div class="count-foot">2026年11月22日 出發</div>
     </div>
+
+    <div class="chips" id="chips"></div>
+    <div class="card weather" id="weather"></div>
+    <div class="card" id="dayCard"></div>
   </section>
 
-  <!-- Itinerary -->
-  <section id="itinerary">
-    <h2 style="margin-bottom:16px; font-size:1.5rem;"><svg width="48" height="40" viewBox="0 0 48 40" xmlns="http://www.w3.org/2000/svg" style="display:inline-block; vertical-align:middle; margin-right:6px;">
-  <ellipse cx="24" cy="26" rx="14" ry="10" fill="#3E3A39" stroke="#3E3A39" stroke-width="2"/>
-  <circle cx="18" cy="20" r="6" fill="white" stroke="#3E3A39" stroke-width="2"/>
-  <circle cx="30" cy="20" r="6" fill="white" stroke="#3E3A39" stroke-width="2"/>
-  <circle cx="16" cy="19" r="2" fill="#3E3A39"/>
-  <circle cx="28" cy="19" r="2" fill="#3E3A39"/>
-  <polygon points="14,16 10,8 18,16" fill="#3E3A39"/>
-  <polygon points="34,16 38,8 30,16" fill="#3E3A39"/>
-</svg>📅 每日行程</h2>
-    <div class="date-tabs" id="dateTabs"></div>
-    <div class="timeline-wrap" id="timelines"></div>
-  </section>
+  <!-- 預約 -->
+  <section class="view" id="v-book">
+    <div class="page-head">
+      <h1 class="page">預約管理</h1>
+      <div class="page-sub">機票、住宿</div>
+      <div class="sticker bob" style="width:132px;height:84px;top:-14px;" id="stk-top"></div>
+    </div>
 
-  <!-- Todo -->
-  <section id="todo">
-    <h2 style="margin-bottom:16px; font-size:1.5rem;"><svg width="48" height="40" viewBox="0 0 48 40" xmlns="http://www.w3.org/2000/svg" style="display:inline-block; vertical-align:middle; margin-right:6px;">
-  <ellipse cx="24" cy="26" rx="14" ry="10" fill="#3E3A39" stroke="#3E3A39" stroke-width="2"/>
-  <circle cx="18" cy="20" r="6" fill="white" stroke="#3E3A39" stroke-width="2"/>
-  <circle cx="30" cy="20" r="6" fill="white" stroke="#3E3A39" stroke-width="2"/>
-  <circle cx="16" cy="19" r="2" fill="#3E3A39"/>
-  <circle cx="28" cy="19" r="2" fill="#3E3A39"/>
-  <polygon points="14,16 10,8 18,16" fill="#3E3A39"/>
-  <polygon points="34,16 38,8 30,16" fill="#3E3A39"/>
-</svg>✅ 待辦清單</h2>
+    <div class="sec-h"><svg class="ic" viewBox="0 0 24 24" id="ic-plane1"></svg>機票<span class="pill-count">2</span></div>
+
+    <div class="card pass">
+      <div class="pass-top">
+        <div class="lbl">BOARDING PASS</div>
+        <div class="rt">香港 → 福岡</div>
+        <div class="pass-main">
+          <div><div class="code">HKG</div><small>出發</small><div class="tm">12:55</div></div>
+          <div class="mid"><svg class="ic" viewBox="0 0 24 24" id="ic-plane2"></svg></div>
+          <div style="text-align:right"><div class="code">FUK</div><small>抵達</small><div class="tm">17:00</div></div>
+        </div>
+      </div>
+      <div class="pass-foot"><div>航班編號<b>UO638</b></div><div style="text-align:right">日期<b>2026/11/22 週日</b></div></div>
+      <div class="pass-note">香港國際機場 客運大樓 2 → 福岡國際機場 國際線航廈</div>
+    </div>
+
+    <div class="card pass">
+      <div class="pass-top">
+        <div class="lbl">BOARDING PASS</div>
+        <div class="rt">福岡 → 香港</div>
+        <div class="pass-main">
+          <div><div class="code">FUK</div><small>出發</small><div class="tm">12:50</div></div>
+          <div class="mid"><svg class="ic" viewBox="0 0 24 24" id="ic-plane3"></svg></div>
+          <div style="text-align:right"><div class="code">HKG</div><small>抵達</small><div class="tm">15:50</div></div>
+        </div>
+      </div>
+      <div class="pass-foot"><div>航班編號<b>UO601</b></div><div style="text-align:right">日期<b>2026/11/28 週六</b></div></div>
+      <div class="pass-note">福岡國際機場 → 香港國際機場</div>
+    </div>
+
+    <div class="sec-h" style="margin-top:34px"><svg class="ic" viewBox="0 0 24 24" id="ic-bed1"></svg>住宿<span class="pill-count">3</span></div>
+
     <div class="card">
-      <div class="todo-item"><input type="checkbox" id="t1"><label for="t1">確認金巴澳門→香港機場時間</label></div>
-      <div class="todo-item"><input type="checkbox" id="t2"><label for="t2">福岡機場→熊本新幹線車票</label></div>
-      <div class="todo-item"><input type="checkbox" id="t3"><label for="t3">黑川溫泉日歸巴士預約（九州橫斷巴士）</label></div>
-      <div class="todo-item"><input type="checkbox" id="t4"><label for="t4">入湯手形（多湯通票）準備</label></div>
-      <div class="todo-item"><input type="checkbox" id="t5"><label for="t5">軍艦島登島預約（天氣視情況）</label></div>
-      <div class="todo-item"><input type="checkbox" id="t9"><label for="t9">長崎原爆資料館參觀時間確認</label></div>
-      <div class="todo-item"><input type="checkbox" id="t6"><label for="t6">JR 或 SUNQ Pass 確認</label></div>
-      <div class="todo-item"><input type="checkbox" id="t7"><label for="t7">行李宅急便（如有需要）</label></div>
-      <div class="todo-item"><input type="checkbox" id="t8"><label for="t8">相島（貓島）渡輪時刻確認</label></div>
+      <div class="stay-name">天然温泉 六花の湯 ドーミーイン熊本</div>
+      <div class="stay-date">11/22（入住 20:00 後）– 11/24（退房 11:00）</div>
+      <div class="stay-meta">方便黑川日歸早班巴士</div>
+    </div>
+    <div class="card">
+      <div class="stay-name">天然温泉 鶴港の湯 ドーミーイン PREMIUM 長崎駅前</div>
+      <div class="stay-date">11/24（入住 15:00 後）– 11/26（退房 11:00 前）</div>
+      <div class="stay-meta">2 晚 · 標準雙人房 · 含早餐 · 長崎站前，方便軍艦島碼頭</div>
+    </div>
+    <div class="card">
+      <div class="stay-name">西鉄ホテル クルーム博多</div>
+      <div class="stay-date">11/26（15:00 入住）– 11/28（11:00 前退房）</div>
+      <div class="stay-meta">博多駅前 1-17-6 · 單人房禁煙 · 天然温泉博多駅前の湯 · 方便市內散策同機場</div>
+      <div class="sticker bob corner" id="stk-bowl"></div>
+    </div>
+    <p class="hint">黑川為日歸，無需過夜</p>
+  </section>
+
+  <!-- 準備 -->
+  <section class="view" id="v-todo">
+    <div class="page-head">
+      <h1 class="page">出發前準備</h1>
+      <div class="page-sub">一項一項打剔</div>
+      <div class="sticker bob" style="width:96px;height:96px;top:-8px;" id="stk-todo"></div>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;font-weight:700;margin-bottom:8px"><span>完成進度</span><span id="todoPct" style="color:var(--pri)">0%</span></div>
+      <div class="track" style="margin:0 0 10px"><div class="bar" id="todoBar"></div></div>
+      <div id="todoList"></div>
+      <div class="add-row"><input id="todoNew" placeholder="新增自訂項目…" maxlength="40"><button class="btn" id="todoAdd">新增</button></div>
     </div>
   </section>
 
-  <!-- Stay -->
-  <section id="stay">
-    <h2 style="margin-bottom:16px; font-size:1.5rem;"><svg width="48" height="40" viewBox="0 0 48 40" xmlns="http://www.w3.org/2000/svg" style="display:inline-block; vertical-align:middle; margin-right:6px;">
-  <ellipse cx="24" cy="26" rx="14" ry="10" fill="#3E3A39" stroke="#3E3A39" stroke-width="2"/>
-  <circle cx="18" cy="20" r="6" fill="white" stroke="#3E3A39" stroke-width="2"/>
-  <circle cx="30" cy="20" r="6" fill="white" stroke="#3E3A39" stroke-width="2"/>
-  <circle cx="16" cy="19" r="2" fill="#3E3A39"/>
-  <circle cx="28" cy="19" r="2" fill="#3E3A39"/>
-  <polygon points="14,16 10,8 18,16" fill="#3E3A39"/>
-  <polygon points="34,16 38,8 30,16" fill="#3E3A39"/>
-</svg>🏠 住宿資訊</h2>
-    <div class="acc-grid">
-      <div class="card" style="background:#B9DAA5;">
-        <h3>天然温泉 六花の湯 ドーミーイン熊本</h3>
-        <p><strong>11/22（入住 下午8:00後）– 11/24（退房 上午11:00）</strong></p>
-        <p style="margin-top:6px; font-size:0.9rem;">方便黑川日歸早班巴士</p>
-      </div>
-      <div class="card" style="background:#F2A497;">
-        <h3>天然温泉 鶴港の湯 ドーミーインPREMIUM長崎駅前</h3>
-        <p><strong>11/24（入住 15:00後）– 11/26（退房 11:00前）</strong></p>
-        <p style="margin-top:6px;">2晚 · 標準雙人房 · 含早餐</p>
-        <p style="margin-top:6px; font-size:0.9rem;">長崎站前，方便軍艦島碼頭</p>
-      </div>
-      <div class="card" style="background:#A8D3E6;">
-        <h3>福岡（11/26–11/28）</h3>
-        <p>建議住博多或天神</p>
-        <p style="margin-top:6px; font-size:0.95rem;">方便貓島行程與機場進出</p>
-      </div>
+  <!-- 天氣 -->
+  <section class="view" id="v-weather">
+    <div class="page-head">
+      <h1 class="page">天氣參考</h1>
+      <div class="page-sub">秋末氣溫約數，出發前再查預報</div>
     </div>
-    <p style="margin-top:12px; font-size:0.9rem; text-align:center;">黑川為日歸，無需過夜</p>
+    <div class="wgrid">
+      <div class="card"><h3>熊本</h3><div class="d">11/22 – 11/24</div><div class="t">12–18°C</div><p>早晚較涼，帶薄外套</p></div>
+      <div class="card"><h3>黑川溫泉</h3><div class="d">11/23 日歸</div><div class="t">8–15°C</div><p>山區較涼，溫泉後要保暖</p></div>
+      <div class="card"><h3>長崎</h3><div class="d">11/24 – 11/26</div><div class="t">13–19°C</div><p>海邊風大，帶外套</p></div>
+      <div class="card"><h3>福岡</h3><div class="d">11/26 – 11/28</div><div class="t">12–18°C</div><p>市區散策啱，留意早晚溫差</p></div>
+    </div>
+    <p class="hint">建議出發前十日再睇 Yahoo 天氣 / 氣象廳</p>
+  </section>
+
+  <!-- 設定 -->
+  <section class="view" id="v-set">
+    <div class="page-head"><h1 class="page">設定</h1><div class="page-sub">自己調一調個樣</div></div>
+    <div class="card">
+      <div class="set-h"><div class="ci"><svg class="ic" viewBox="0 0 24 24" id="ic-palette"></svg></div><div><b>主題顏色</b><small>選擇你喜歡的顏色</small></div></div>
+      <div class="swatches" id="swatches"></div>
+    </div>
+    <div class="card">
+      <div class="set-h"><div class="ci" style="font-weight:800;font-size:1.3rem">T</div><div><b>字體大小</b><small id="fsVal">16px</small></div></div>
+      <input type="range" id="fs" min="14" max="20" value="16">
+    </div>
+    <div class="card">
+      <div class="set-h"><div class="ci"><svg class="ic" viewBox="0 0 24 24" id="ic-spark"></svg></div><div><b>櫻花飄落</b><small>背景動畫效果</small></div><div class="toggle on" id="petalToggle"></div></div>
+    </div>
+    <p class="hint">小小貓陪你去九州 🐾</p>
   </section>
 </main>
 
+<button class="fab" id="fab" aria-label="切換櫻花"><svg class="ic" viewBox="0 0 24 24" id="ic-spark2"></svg></button>
 
-<div style="text-align:center; margin:16px 0;">
-  <svg width="60" height="50" viewBox="0 0 60 50" xmlns="http://www.w3.org/2000/svg" class="float" style="display:inline-block; margin:0 8px;">
-    <ellipse cx="30" cy="32" rx="18" ry="12" fill="#F6D27A" stroke="#3E3A39" stroke-width="2.5"/>
-    <circle cx="22" cy="24" r="7" fill="white" stroke="#3E3A39" stroke-width="2"/>
-    <circle cx="38" cy="24" r="7" fill="white" stroke="#3E3A39" stroke-width="2"/>
-    <circle cx="20" cy="23" r="2.5" fill="#3E3A39"/>
-    <circle cx="36" cy="23" r="2.5" fill="#3E3A39"/>
-    <polygon points="16,20 12,10 22,20" fill="#F2A497" stroke="#3E3A39" stroke-width="1.5"/>
-    <polygon points="44,20 48,10 38,20" fill="#F2A497" stroke="#3E3A39" stroke-width="1.5"/>
-  </svg>
-  <svg width="60" height="50" viewBox="0 0 60 50" xmlns="http://www.w3.org/2000/svg" class="float" style="display:inline-block; margin:0 8px; animation-delay:0.5s;">
-    <ellipse cx="30" cy="32" rx="18" ry="12" fill="#B9DAA5" stroke="#3E3A39" stroke-width="2.5"/>
-    <circle cx="22" cy="24" r="7" fill="white" stroke="#3E3A39" stroke-width="2"/>
-    <circle cx="38" cy="24" r="7" fill="white" stroke="#3E3A39" stroke-width="2"/>
-    <circle cx="20" cy="23" r="2.5" fill="#3E3A39"/>
-    <circle cx="36" cy="23" r="2.5" fill="#3E3A39"/>
-    <polygon points="16,20 12,10 22,20" fill="#A8D3E6" stroke="#3E3A39" stroke-width="1.5"/>
-    <polygon points="44,20 48,10 38,20" fill="#A8D3E6" stroke="#3E3A39" stroke-width="1.5"/>
-  </svg>
-</div>
-<footer>
-  小小貓陪你去九州 · 和紙白底 · 繪本風<br>
-  資料以出發前確認為準
-</footer>
+<nav id="nav">
+  <button data-v="v-trip" class="active"><svg class="ic" viewBox="0 0 24 24" data-i="cal"></svg>行程</button>
+  <button data-v="v-book"><svg class="ic" viewBox="0 0 24 24" data-i="ticket"></svg>預約</button>
+  <button data-v="v-todo"><svg class="ic" viewBox="0 0 24 24" data-i="check"></svg>準備</button>
+  <button data-v="v-weather"><svg class="ic" viewBox="0 0 24 24" data-i="cloud"></svg>天氣</button>
+  <button data-v="v-set"><svg class="ic" viewBox="0 0 24 24" data-i="gear"></svg>設定</button>
+</nav>
 
 <script>
-// Countdown to 2026-11-22 00:00 CST (approx)
-const target = new Date('2026-11-22T00:00:00+08:00').getTime();
-function updateCountdown() {
-  const now = Date.now();
-  const diff = target - now;
-  const el = document.getElementById('countdown');
-  if (diff <= 0) {
-    el.textContent = '出發日到了！';
-    return;
-  }
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  const secs = Math.floor((diff % (1000 * 60)) / 1000);
-  el.textContent = `還有 ${days} 天 ${hours} 時 ${mins} 分 ${secs} 秒`;
-}
-updateCountdown();
-setInterval(updateCountdown, 1000);
+/* ---------- icons ---------- */
+const IC = {
+  pin: '<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
+  plane: '<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+  train: '<rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16M12 3v8M8 19l-2 3M18 22l-2-3M8 15h.01M16 15h.01"/>',
+  bus: '<path d="M8 6v6M16 6v6M2 12h19.6M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/>',
+  bed: '<path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"/>',
+  food: '<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
+  cal: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  ticket: '<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2M13 17v2M13 11v2"/>',
+  check: '<path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
+  cloud: '<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>',
+  gear: '<circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M1 12h3M20 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',
+  spark: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>',
+  palette: '<circle cx="13.5" cy="6.5" r="1"/><circle cx="17.5" cy="10.5" r="1"/><circle cx="8.5" cy="7.5" r="1"/><circle cx="6.5" cy="12.5" r="1"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.4-1-.3-.3-.4-.6-.4-1 0-.8.7-1.5 1.5-1.5H16c3.3 0 6-2.7 6-6 0-4.9-4.5-9-10-9z"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'
+};
+const ic = (n, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24">${IC[n]}</svg>`;
+document.querySelectorAll('[data-i]').forEach(e => e.innerHTML = IC[e.dataset.i]);
+[['ic-plane1','plane'],['ic-plane2','plane'],['ic-plane3','plane'],['ic-bed1','bed'],['ic-palette','palette'],['ic-spark','spark'],['ic-spark2','spark']]
+  .forEach(([id, n]) => { const e = document.getElementById(id); if (e) e.innerHTML = IC[n]; });
 
-// Itinerary data
-const days = [
-  {
-    date: '11/22',
-    title: '抵達熊本',
-    items: [
-      { time: '早上', tag: 'bus', tagText: '金巴', text: '澳門 → 香港機場' },
-      { time: '12:55', tag: 'flight', tagText: 'UO638', text: 'HKG 客運大樓2 起飛' },
-      { time: '17:00', tag: 'flight', tagText: '抵達', text: '福岡機場國際線航廈' },
-      { time: '傍晚', tag: 'train', tagText: '新幹線', text: '博多 → 熊本站', must: true },
-      { time: '晚上', tag: 'walk', tagText: '入住', text: 'ドーミーイン熊本（下午8:00後可入住）' }
-    ]
-  },
-  {
-    date: '11/23',
-    title: '黑川溫泉日歸',
-    items: [
-      { time: '早上', tag: 'bus', tagText: '巴士', text: '熊本出發 → 黑川溫泉（九州橫斷巴士）', must: true },
-      { time: '中午', tag: 'walk', tagText: '溫泉', text: '入湯手形多湯巡禮，日歸溫泉' },
-      { time: '下午', tag: 'walk', tagText: '散步', text: '黑川溪谷散步，看秋色' },
-      { time: '傍晚', tag: 'bus', tagText: '巴士', text: '返回熊本（住ドーミーイン）' }
-    ]
-  },
-  {
-    date: '11/24',
-    title: '前往長崎',
-    items: [
-      { time: '早上', tag: 'train', tagText: '新幹線', text: '熊本 → 博多 → 長崎（西九州新幹線）', must: true },
-      { time: '中午', tag: 'walk', tagText: '步行', text: '入住長崎住宿' },
-      { time: '下午', tag: 'walk', tagText: '必去', text: '長崎原爆資料館', must: true },
-      { time: '晚上', tag: 'walk', tagText: '美食', text: '中華街或出島附近晚餐' }
-    ]
-  },
-  {
-    date: '11/25',
-    title: '軍艦島・原爆',
-    items: [
-      { time: '早上', tag: 'bus', tagText: '巴士', text: '前往軍艦島登島碼頭', must: true },
-      { time: '上午', tag: 'walk', tagText: '登島', text: '軍艦島巡禮（視天氣）', must: true },
-      { time: '下午', tag: 'walk', tagText: '必去', text: '長崎原爆資料館（如未看完）', must: true },
-      { time: '晚上', tag: 'walk', tagText: '自由', text: '長崎自由時間' }
-    ]
-  },
-  {
-    date: '11/26',
-    title: '前往福岡',
-    items: [
-      { time: '早上', tag: 'train', tagText: '新幹線', text: '長崎 → 博多', must: true },
-      { time: '下午', tag: 'walk', tagText: '步行', text: '博多／天神購物散步' },
-      { time: '晚上', tag: 'walk', tagText: '美食', text: '屋台或博多美食' }
-    ]
-  },
-  {
-    date: '11/27',
-    title: '福岡・貓島',
-    items: [
-      { time: '早上', tag: 'train', tagText: '電車', text: '福岡 → 新宮港（相島貓島方向）', must: true },
-      { time: '上午', tag: 'bus', tagText: '渡輪', text: '搭渡輪前往相島（貓島）' },
-      { time: '中午', tag: 'walk', tagText: '貓島', text: '相島散步、與貓咪互動、看海', must: true },
-      { time: '下午', tag: 'bus', tagText: '渡輪', text: '渡輪返回新宮，再回福岡' },
-      { time: '晚上', tag: 'walk', tagText: '自由', text: '福岡市區自由活動／休息' }
-    ]
-  },
-  {
-    date: '11/28',
-    title: '福岡自由・出發',
-    items: [
-      { time: '早上', tag: 'walk', tagText: '自由', text: '福岡最後散步或購物' },
-      { time: '中午', tag: 'train', tagText: '地鐵', text: '前往福岡機場（建議提早）' },
-      { time: '12:50', tag: 'flight', tagText: 'UO601', text: '福岡機場起飛 → HKG 15:50' }
-    ]
+/* ---------- cat stickers (original drawings) ---------- */
+function cat(kind) {
+  const ink = '#6B5445';
+  const white = kind === 'maneki';
+  const fur = white ? '#FFFDF8' : '#E9CDA4';
+  const st = '#B98B5E';
+  const sw = 'stroke="' + ink + '" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"';
+  let s = `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">`;
+  // tail
+  s += `<path d="M88 100 Q114 98 108 70" fill="none" stroke="${ink}" stroke-width="10" stroke-linecap="round"/><path d="M88 100 Q114 98 108 70" fill="none" stroke="${fur}" stroke-width="5.4" stroke-linecap="round"/>`;
+  // body
+  s += `<ellipse cx="60" cy="92" rx="27" ry="22" fill="${fur}" ${sw}/>`;
+  // ears
+  s += `<polygon points="30,40 33,12 56,27" fill="${fur}" ${sw}/><polygon points="90,40 87,12 64,27" fill="${fur}" ${sw}/>`;
+  s += `<polygon points="35,32 37,19 48,27" fill="#F5B3B8"/><polygon points="85,32 83,19 72,27" fill="#F5B3B8"/>`;
+  // head
+  s += `<ellipse cx="60" cy="50" rx="33" ry="27" fill="${fur}" ${sw}/>`;
+  if (white) {
+    s += `<ellipse cx="42" cy="36" rx="9" ry="7" fill="#F2B77E" opacity=".9"/><ellipse cx="82" cy="60" rx="6" ry="5" fill="#F2B77E" opacity=".9"/>`;
+  } else {
+    s += `<path d="M52 27v9M60 25v10M68 27v9M30 52h7M30 58h6M90 52h-7M90 58h-6" stroke="${st}" stroke-width="2.6" stroke-linecap="round" fill="none"/>`;
   }
+  if (kind === 'ramen' || kind === 'sakura') {
+    s += `<path d="M28 42 Q60 28 92 42 L91 50 Q60 37 29 50Z" fill="#fff" ${sw}/><circle cx="60" cy="40" r="4.6" fill="#D9534F"/>`;
+  }
+  // face
+  s += `<ellipse cx="46" cy="53" rx="3.4" ry="4" fill="${ink}"/><ellipse cx="74" cy="53" rx="3.4" ry="4" fill="${ink}"/>`;
+  s += `<circle cx="47.2" cy="51.6" r="1.2" fill="#fff"/><circle cx="75.2" cy="51.6" r="1.2" fill="#fff"/>`;
+  s += `<ellipse cx="38" cy="62" rx="6" ry="3.6" fill="#F7B7B7" opacity=".75"/><ellipse cx="82" cy="62" rx="6" ry="3.6" fill="#F7B7B7" opacity=".75"/>`;
+  s += `<path d="M57 58h6l-3 3.4z" fill="#E58C8C"/><path d="M60 61.4v2.2M60 63.6Q56.5 67 53.5 63.6M60 63.6Q63.5 67 66.5 63.6" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round"/>`;
+  if (kind === 'ramen') {
+    // bowl, noodles, chopsticks
+    s += `<path d="M30 88 H90 Q88 114 60 114 Q32 114 30 88Z" fill="#fff" ${sw}/><path d="M30 88 H90" stroke="#D9534F" stroke-width="4"/>`;
+    s += `<path d="M44 88 Q42 78 50 70 M54 88 Q52 76 58 68 M64 88 Q64 78 60 68" fill="none" stroke="#F3D98E" stroke-width="3.2" stroke-linecap="round"/>`;
+    s += `<path d="M82 72 L62 90 M86 76 L66 92" stroke="${ink}" stroke-width="2.6" stroke-linecap="round"/>`;
+    s += `<ellipse cx="38" cy="90" rx="8" ry="6" fill="${fur}" ${sw}/><ellipse cx="82" cy="90" rx="8" ry="6" fill="${fur}" ${sw}/>`;
+  } else if (kind === 'maneki') {
+    s += `<circle cx="60" cy="77" r="4.5" fill="#F4C84E" ${sw}/><path d="M42 77 Q60 84 78 77" fill="none" stroke="#D9534F" stroke-width="3.5" stroke-linecap="round"/>`;
+    s += `<path d="M82 90 Q98 80 96 58" fill="none" stroke="${ink}" stroke-width="13" stroke-linecap="round"/><path d="M82 90 Q98 80 96 58" fill="none" stroke="${fur}" stroke-width="9" stroke-linecap="round"/>`;
+    s += `<circle cx="96" cy="54" r="7.5" fill="${fur}" ${sw}/><ellipse cx="42" cy="108" rx="9" ry="5.5" fill="${fur}" ${sw}/><ellipse cx="72" cy="108" rx="9" ry="5.5" fill="${fur}" ${sw}/>`;
+  } else if (kind === 'bowl') {
+    s += `<path d="M22 84 H98 Q95 116 60 116 Q25 116 22 84Z" fill="#F4F0E6" ${sw}/><path d="M22 84 H98" stroke="#8DB7D8" stroke-width="4"/>`;
+    s += `<g transform="rotate(-8 60 100)"><rect x="40" y="88" width="40" height="24" rx="3" fill="#BFDDB2" ${sw}/><path d="M60 88v24M50 94l4 4M70 100l4 4" stroke="${ink}" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>`;
+    s += `<ellipse cx="34" cy="88" rx="8" ry="5.5" fill="${fur}" ${sw}/><ellipse cx="86" cy="88" rx="8" ry="5.5" fill="${fur}" ${sw}/>`;
+  } else if (kind === 'sakura') {
+    s += `<path d="M2 28 Q40 20 70 6" fill="none" stroke="#8A6A55" stroke-width="5" stroke-linecap="round"/>`;
+    [[14,26],[30,22],[48,15],[62,9],[22,36],[40,28]].forEach(([x,y]) => s += `<g transform="translate(${x} ${y})"><circle r="6.5" fill="#FFC9D6"/><circle r="2" fill="#F08FA6"/></g>`);
+    s += `<ellipse cx="44" cy="108" rx="9" ry="5.5" fill="${fur}" ${sw}/><ellipse cx="74" cy="108" rx="9" ry="5.5" fill="${fur}" ${sw}/>`;
+  }
+  return s + '</svg>';
+}
+
+/* ---------- data ---------- */
+const days = [
+  { dow:'Sun', n:22, title:'抵達熊本', route:'香港 → 福岡 → 熊本', hotel:'ドーミーイン熊本', temp:[18,12], place:'熊本', cat:'maneki', items:[
+    { time:'早上', ic:'bus', text:'金巴：澳門 → 香港機場' },
+    { time:'12:55', ic:'plane', text:'UO638 · HKG 客運大樓 2 起飛' },
+    { time:'17:00', ic:'plane', text:'抵達福岡機場國際線航廈' },
+    { time:'傍晚', ic:'train', text:'新幹線：博多 → 熊本站', must:1 },
+    { time:'晚上', ic:'bed', text:'入住ドーミーイン熊本（20:00 後可入住）' }
+  ]},
+  { dow:'Mon', n:23, title:'黑川溫泉日歸', route:'熊本 → 黑川溫泉 → 熊本', hotel:'ドーミーイン熊本', temp:[15,8], place:'黑川', cat:'sakura', items:[
+    { time:'早上', ic:'bus', text:'熊本出發 → 黑川溫泉（九州橫斷巴士）', must:1 },
+    { time:'中午', ic:'pin', text:'入湯手形多湯巡禮，日歸溫泉' },
+    { time:'下午', ic:'pin', text:'黑川溪谷散步，看秋色' },
+    { time:'傍晚', ic:'bus', text:'返回熊本（住ドーミーイン）' }
+  ]},
+  { dow:'Tue', n:24, title:'前往長崎', route:'熊本 → 博多 → 長崎', hotel:'ドーミーイン PREMIUM 長崎駅前', temp:[19,13], place:'長崎', cat:'ramen', items:[
+    { time:'早上', ic:'train', text:'新幹線：熊本 → 博多 → 長崎（西九州新幹線）', must:1 },
+    { time:'中午', ic:'bed', text:'入住長崎住宿' },
+    { time:'下午', ic:'pin', text:'長崎原爆資料館', must:1 },
+    { time:'晚上', ic:'food', text:'中華街或出島附近晚餐' }
+  ]},
+  { dow:'Wed', n:25, title:'軍艦島・原爆', route:'長崎 → 軍艦島 → 長崎市區', hotel:'ドーミーイン PREMIUM 長崎駅前', temp:[19,13], place:'長崎', cat:'bowl', items:[
+    { time:'早上', ic:'bus', text:'前往軍艦島登島碼頭', must:1 },
+    { time:'上午', ic:'pin', text:'軍艦島巡禮（視天氣）', must:1 },
+    { time:'下午', ic:'pin', text:'長崎原爆資料館（如未看完）', must:1 },
+    { time:'晚上', ic:'food', text:'長崎市區散步或美食' }
+  ]},
+  { dow:'Thu', n:26, title:'長崎 → 福岡', route:'長崎 → 博多', hotel:'西鉄ホテル クルーム博多', temp:[18,12], place:'福岡', cat:'maneki', items:[
+    { time:'早上', ic:'train', text:'新幹線：長崎 → 博多', must:1 },
+    { time:'中午', ic:'bed', text:'抵達福岡，入住' },
+    { time:'下午', ic:'pin', text:'福岡市區自由活動' },
+    { time:'晚上', ic:'food', text:'福岡美食' }
+  ]},
+  { dow:'Fri', n:27, title:'貓島 或 大濠公園', route:'方案 A 相島 ／ 方案 B 大濠公園', hotel:'西鉄ホテル クルーム博多', temp:[18,12], place:'福岡', cat:'sakura', items:[
+    { time:'方案 A', ic:'train', text:'福岡 → 新宮港 → 渡輪去相島（貓島）', must:1, opt:'a' },
+    { time:'方案 A', ic:'pin', text:'相島散步、與貓咪互動、看海', must:1, opt:'a' },
+    { time:'方案 B', ic:'pin', text:'大濠公園散步、看秋景（市內輕鬆）', must:1, opt:'b' },
+    { time:'方案 B', ic:'pin', text:'天神・中洲・博多市內自由散步、購物、美食', opt:'b' },
+    { time:'晚上', ic:'food', text:'福岡市區自由活動／休息' }
+  ]},
+  { dow:'Sat', n:28, title:'福岡自由・出發', route:'福岡 → 香港', hotel:'11:00 前退房（西鉄ホテル クルーム博多）', temp:[18,12], place:'福岡', cat:'ramen', items:[
+    { time:'早上', ic:'pin', text:'福岡最後散步或購物' },
+    { time:'中午', ic:'train', text:'地鐵前往福岡機場（建議提早）' },
+    { time:'12:50', ic:'plane', text:'UO601 · 福岡機場起飛 → HKG 15:50' }
+  ]}
 ];
 
-// Render tabs and timelines
-const tabsEl = document.getElementById('dateTabs');
-const timelinesEl = document.getElementById('timelines');
-
-days.forEach((day, idx) => {
-  const tab = document.createElement('button');
-  tab.className = 'date-tab' + (idx === 0 ? ' active' : '');
-  tab.textContent = day.date + ' ' + day.title.split('・')[0];
-  tab.onclick = () => switchDay(idx);
-  tabsEl.appendChild(tab);
-
-  const tl = document.createElement('div');
-  tl.className = 'timeline' + (idx === 0 ? ' active' : '');
-  tl.innerHTML = `<h3 style="margin-bottom:12px;">${day.date} ${day.title}</h3>` +
-    day.items.map(item => `
-      <div class="time-item">
-        <div class="time">${item.time}</div>
-        <div class="content">
-          <span class="tag ${item.tag}">${item.tagText}</span>
-          ${item.text}
-          ${item.must ? '<span class="must">必去</span>' : ''}
-        </div>
+/* ---------- itinerary ---------- */
+const chipsEl = document.getElementById('chips');
+days.forEach((d, i) => {
+  const b = document.createElement('button');
+  b.className = 'chip' + (i === 0 ? ' active' : '');
+  b.innerHTML = `<small>${d.dow}</small><b>${d.n}</b>`;
+  b.onclick = () => showDay(i);
+  chipsEl.appendChild(b);
+});
+function showDay(i) {
+  const d = days[i];
+  chipsEl.querySelectorAll('.chip').forEach((c, k) => c.classList.toggle('active', k === i));
+  document.getElementById('weather').innerHTML = `
+    <div class="w-ic">${ic('cloud')}</div>
+    <div><div class="w-temp">${d.temp[0]}°C <i>/ ${d.temp[1]}°C</i></div><div class="w-note">11月季節參考</div></div>
+    <div class="w-right">${d.place}<small>最高 / 最低</small></div>`;
+  document.getElementById('dayCard').innerHTML = `
+    <div class="day-head">
+      <div>
+        <div class="day-date"><span class="dow">${d.dow}</span><span class="num">${d.n}</span><span class="mon">Nov</span></div>
+        <div class="day-title">Day ${i + 1} ${d.title}</div>
+        <div class="day-route">✓ ${d.route}</div>
       </div>
-    `).join('');
-  timelinesEl.appendChild(tl);
-});
-
-function switchDay(idx) {
-  document.querySelectorAll('.date-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
-  document.querySelectorAll('.timeline').forEach((t, i) => {
-    t.classList.remove('active');
-    if (i === idx) {
-      // Force reflow for animation
-      void t.offsetWidth;
-      t.classList.add('active');
-    }
-  });
+      <div class="sticker bob" style="width:118px;height:118px;flex:none;margin-top:-6px">${cat(d.cat)}</div>
+    </div>
+    <div class="hotel">${ic('bed')}<span>${d.hotel}</span></div>
+    <div class="sec-title">活動安排</div>
+    ${d.items.map(it => `
+      <div class="act ${it.opt === 'b' ? 'b' : ''}">
+        <div class="dot">${ic(it.ic)}</div>
+        <div>
+          <div class="tm">${it.time}</div>
+          <div class="tx">${it.text}${it.must ? '<span class="must">必去</span>' : ''}</div>
+        </div>
+      </div>`).join('')}`;
 }
+showDay(0);
 
-// Todo persistence (simple localStorage)
-document.querySelectorAll('.todo-item input').forEach(cb => {
-  const id = cb.id;
-  if (localStorage.getItem(id) === '1') {
-    cb.checked = true;
-    cb.parentElement.classList.add('done');
-  }
-  cb.addEventListener('change', () => {
-    cb.parentElement.classList.toggle('done', cb.checked);
-    localStorage.setItem(id, cb.checked ? '1' : '0');
-  });
+/* ---------- stickers on other tabs ---------- */
+document.getElementById('stk-top').innerHTML = `<div style="position:absolute;left:0;top:6px;width:64px;height:64px">${cat('sakura')}</div><div style="position:absolute;right:0;top:0;width:70px;height:70px">${cat('maneki')}</div>`;
+document.getElementById('stk-bowl').innerHTML = cat('bowl');
+document.getElementById('stk-todo').innerHTML = cat('ramen');
+
+/* ---------- countdown ---------- */
+const target = new Date('2026-11-22T00:00:00+08:00').getTime();
+function tick() {
+  const now = Date.now(), diff = target - now;
+  const cd = document.getElementById('cd'), bar = document.getElementById('bar'), plane = document.getElementById('plane');
+  if (diff <= 0) { cd.textContent = '出發日到了！'; bar.style.width = '100%'; plane.style.left = '100%'; return; }
+  const dd = Math.floor(diff / 864e5), h = Math.floor(diff % 864e5 / 36e5), m = Math.floor(diff % 36e5 / 6e4), s = Math.floor(diff % 6e4 / 1e3);
+  const p2 = n => String(n).padStart(2, '0');
+  cd.innerHTML = `${dd}<span class="u">天</span>${p2(h)}<span class="c"> : </span>${p2(m)}<span class="c"> : </span>${p2(s)}`;
+  const win = 30 * 864e5;
+  const pct = Math.min(95, Math.max(3, (now - (target - win)) / win * 100));
+  bar.style.width = pct + '%'; plane.style.left = pct + '%';
+}
+tick(); setInterval(tick, 1000);
+
+/* ---------- tabs ---------- */
+document.querySelectorAll('#nav button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#nav button').forEach(x => x.classList.toggle('active', x === b));
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === b.dataset.v));
+  window.scrollTo({ top: 0 });
 });
-</script>
 
+/* ---------- storage helpers ---------- */
+const store = {
+  get(k, f) { try { const v = localStorage.getItem(k); return v === null ? f : JSON.parse(v); } catch (e) { return f; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+
+/* ---------- todo ---------- */
+let todos = store.get('kz_todos', [
+  { t: '買北九州 5 日券（官網最平）', d: 0 },
+  { t: '確認 11/22 傍晚新幹線班次', d: 0 },
+  { t: '黑川溫泉巴士預約', d: 0 },
+  { t: '軍艦島登島票', d: 0 },
+  { t: '貓島渡輪 或 大濠公園計劃', d: 0 },
+  { t: '換日圓 / 交通卡', d: 0 }
+]);
+function renderTodos() {
+  const box = document.getElementById('todoList');
+  box.innerHTML = '';
+  todos.forEach((o, i) => {
+    const r = document.createElement('div');
+    r.className = 'todo' + (o.d ? ' done' : '');
+    r.innerHTML = `<input type="checkbox" id="td${i}" ${o.d ? 'checked' : ''}><label for="td${i}"></label><button class="del" aria-label="刪除">×</button>`;
+    r.querySelector('label').textContent = o.t;
+    r.querySelector('input').onchange = e => { o.d = e.target.checked ? 1 : 0; save(); };
+    r.querySelector('.del').onclick = () => { todos.splice(i, 1); save(); };
+    box.appendChild(r);
+  });
+  const done = todos.filter(o => o.d).length, pct = todos.length ? Math.round(done / todos.length * 100) : 0;
+  document.getElementById('todoPct').textContent = `${done}/${todos.length} · ${pct}%`;
+  document.getElementById('todoBar').style.width = pct + '%';
+}
+function save() { store.set('kz_todos', todos); renderTodos(); }
+document.getElementById('todoAdd').onclick = () => {
+  const inp = document.getElementById('todoNew'), v = inp.value.trim();
+  if (!v) return; todos.push({ t: v, d: 0 }); inp.value = ''; save();
+};
+document.getElementById('todoNew').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('todoAdd').click(); });
+renderTodos();
+
+/* ---------- settings ---------- */
+const themes = [['#D49A62','#B87D46'],['#7B8FC4','#5F74AA'],['#93C3A4','#76A788'],['#E89F9F','#CE8080'],['#B5A5D6','#9A89BE'],['#E8C86A','#CCAA48']];
+function applyTheme(i) {
+  const [a, b] = themes[i];
+  const root = document.documentElement.style;
+  root.setProperty('--pri', a); root.setProperty('--pri-d', b);
+  root.setProperty('--tint', `color-mix(in srgb, ${a} 14%, #FFFBF0)`);
+  document.querySelectorAll('.sw').forEach((e, k) => e.classList.toggle('on', k === i));
+  store.set('kz_theme', i);
+}
+const swBox = document.getElementById('swatches');
+themes.forEach((t, i) => { const b = document.createElement('button'); b.className = 'sw'; b.style.background = t[0]; b.setAttribute('aria-label', '主題色 ' + (i + 1)); b.onclick = () => applyTheme(i); swBox.appendChild(b); });
+applyTheme(store.get('kz_theme', 3));
+
+const fs = document.getElementById('fs');
+function applyFs(v) { document.documentElement.style.fontSize = v + 'px'; document.getElementById('fsVal').textContent = v + 'px'; fs.value = v; store.set('kz_fs', v); }
+fs.oninput = () => applyFs(+fs.value);
+applyFs(store.get('kz_fs', 16));
+
+/* ---------- petals ---------- */
+const pBox = document.getElementById('petals');
+for (let i = 0; i < 16; i++) {
+  const p = document.createElement('div'), s = 8 + Math.random() * 9;
+  p.className = 'petal';
+  p.style.cssText = `left:${Math.random() * 100}%;width:${s}px;height:${s}px;animation-duration:${9 + Math.random() * 9}s;animation-delay:${-Math.random() * 14}s`;
+  pBox.appendChild(p);
+}
+const tg = document.getElementById('petalToggle');
+function setPetals(on) { document.body.classList.toggle('petals-on', on); tg.classList.toggle('on', on); store.set('kz_petals', on); }
+tg.onclick = () => setPetals(!document.body.classList.contains('petals-on'));
+document.getElementById('fab').onclick = tg.onclick;
+setPetals(store.get('kz_petals', true));
+</script>
 </body>
 </html>
