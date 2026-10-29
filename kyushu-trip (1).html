@@ -203,8 +203,8 @@ nav {
   display: flex; justify-content: space-around;
   padding: 10px 6px calc(12px + env(safe-area-inset-bottom));
 }
-nav button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 2px; border-radius: 20px; color: var(--soft); font-size: .74rem; flex: 1; min-width: 0; }
-nav button svg { width: 24px; height: 24px; }
+nav button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0; border-radius: 18px; color: var(--soft); font-size: .72rem; flex: 1; min-width: 0; }
+nav button svg { width: 23px; height: 23px; }
 nav button.active { color: var(--pri); background: var(--tint); }
 .fab {
   position: fixed; right: 18px; bottom: 112px; z-index: 60;
@@ -297,6 +297,33 @@ a.hotel svg:last-child { margin-left: auto; }
 .exp .del { color: var(--soft); opacity: .7; padding: 4px 6px; font-size: 1.1rem; }
 .empty { text-align: center; color: var(--soft); font-size: .9rem; padding: 10px 0; }
 .theme-name { margin-top: 14px; color: var(--soft); font-size: .88rem; }
+
+/* shopping list */
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; }
+.stat { display: flex; align-items: center; justify-content: space-between; padding: 14px 8px 14px 16px; margin: 0; overflow: hidden; }
+.stat .num { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 2.4rem; line-height: 1; }
+.stat .lab { color: var(--soft); margin-top: 6px; font-size: .88rem; white-space: nowrap; }
+.stat .fig { width: 94px; height: 94px; flex: none; margin: -4px -6px -4px 0; }
+.sh-head { display: flex; align-items: center; justify-content: space-between; margin: 0 2px 14px; }
+.sh-head b { font-size: 1.05rem; }
+.shop-item { display: flex; align-items: center; gap: 12px; padding: 14px; margin-bottom: 16px; }
+.chk { appearance: none; width: 26px; height: 26px; border-radius: 9px; border: 3px solid var(--ink); background: #fff; flex: none; display: grid; place-items: center; cursor: pointer; opacity: .85; }
+.chk:checked { background: var(--pri); border-color: var(--pri); opacity: 1; }
+.chk:checked::after { content: '✓'; color: #fff; font-weight: 800; font-size: .9rem; }
+.thumb { width: 66px; height: 66px; border-radius: 16px; object-fit: cover; flex: none; border: 2px solid #EFE8D2; background: #fff; }
+.si-main { flex: 1; min-width: 0; }
+.si-name { font-weight: 700; font-size: 1.05rem; line-height: 1.3; word-break: break-word; }
+.si-note { color: var(--soft); font-size: .86rem; margin-top: 3px; word-break: break-word; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.tag { font-size: .74rem; font-weight: 700; padding: 1px 10px; border-radius: 99px; border: 2px solid var(--ink); background: #fff; }
+.tag.p0 { border-color: #F0DFA6; background: #FBF0CC; color: #B8913A; }
+.tag.p1 { border-color: color-mix(in srgb, var(--pri) 55%, white); background: var(--tint); color: var(--pri); }
+.shop-item.done .si-name { text-decoration: line-through; opacity: .55; }
+.shop-item.done .thumb { opacity: .55; }
+.shop-item .del { color: var(--soft); opacity: .7; padding: 4px 6px; font-size: 1.2rem; align-self: flex-start; }
+.photo-pick { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: .88rem; color: var(--soft); }
+.photo-pick label { display: inline-flex; align-items: center; gap: 6px; border: 3px dashed var(--line); border-radius: 16px; padding: 8px 14px; color: var(--pri); font-weight: 700; cursor: pointer; }
+.photo-pick img { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; }
 @media (prefers-reduced-motion: reduce) { .petal, .leaf, .bob, .view.active { animation: none !important; } }
 </style>
 </head>
@@ -429,6 +456,36 @@ a.hotel svg:last-child { margin-left: auto; }
     <div class="card" id="expList"></div>
   </section>
 
+  <!-- 購物 -->
+  <section class="view" id="v-shop">
+    <div class="bud-head">
+      <div><h1 class="page">購物清單</h1><div class="page-sub" style="margin:0">記錄想買的東西</div></div>
+      <div class="sticker bob" style="width:104px;height:104px;flex:none" id="stk-shop"></div>
+      <button class="btn" id="spToggle">＋ 新增</button>
+    </div>
+
+    <div class="stats">
+      <div class="card stat"><div><div class="num" id="spTodo">0</div><div class="lab">待購買</div></div><div id="pgirl" class="sticker fig"></div></div>
+      <div class="card stat"><div><div class="num" id="spDone">0</div><div class="lab">已購買</div></div><div id="pboy" class="sticker fig"></div></div>
+    </div>
+
+    <div class="card" id="spPanel" hidden>
+      <div class="form-grid">
+        <input class="fld" id="spName" placeholder="想買咩？（例如 保暖襪）" maxlength="40">
+        <input class="fld" id="spNote" placeholder="備註／邊度買（例如 Donki）" maxlength="40" style="grid-column:1/-1">
+        <select class="fld" id="spCat"></select>
+        <select class="fld" id="spPri"><option value="0">一般</option><option value="1">重要</option></select>
+      </div>
+      <div class="photo-pick"><label for="spImg">📷 加相</label><input type="file" id="spImg" accept="image/*" hidden><img id="spPrev" alt="" hidden><span id="spImgNote">可選，會自動縮細</span></div>
+      <button class="btn" id="spAdd" style="width:100%;margin-top:14px">加入清單</button>
+    </div>
+
+    <div class="sh-head"><b>待購買</b><select class="fld" id="spFilter" style="padding:6px 10px;border-radius:14px;font-size:.88rem"></select></div>
+    <div id="spList"></div>
+    <div class="sh-head" style="margin-top:26px"><b>已購買</b></div>
+    <div id="spDoneList"></div>
+  </section>
+
   <!-- 準備 -->
   <section class="view" id="v-todo">
     <div class="page-head">
@@ -485,6 +542,7 @@ a.hotel svg:last-child { margin-left: auto; }
   <button data-v="v-trip" class="active"><svg class="ic" viewBox="0 0 24 24" data-i="cal"></svg>行程</button>
   <button data-v="v-book"><svg class="ic" viewBox="0 0 24 24" data-i="ticket"></svg>預約</button>
   <button data-v="v-budget"><svg class="ic" viewBox="0 0 24 24" data-i="wallet"></svg>預算</button>
+  <button data-v="v-shop"><svg class="ic" viewBox="0 0 24 24" data-i="bag"></svg>購物</button>
   <button data-v="v-todo"><svg class="ic" viewBox="0 0 24 24" data-i="check"></svg>準備</button>
   <button data-v="v-weather"><svg class="ic" viewBox="0 0 24 24" data-i="cloud"></svg>天氣</button>
   <button data-v="v-set"><svg class="ic" viewBox="0 0 24 24" data-i="gear"></svg>設定</button>
@@ -581,7 +639,7 @@ function cat(kind) {
   } else {
     s += `<path d="M52 27v9M60 25v10M68 27v9M30 52h7M30 58h6M90 52h-7M90 58h-6" stroke="${st}" stroke-width="2.6" stroke-linecap="round" fill="none"/>`;
   }
-  if (kind === 'ramen' || kind === 'sakura') {
+  if (kind === 'ramen' || kind === 'sakura' || kind === 'bags') {
     s += `<path d="M28 42 Q60 28 92 42 L91 50 Q60 37 29 50Z" fill="#fff" ${sw}/><circle cx="60" cy="40" r="4.6" fill="#D9534F"/>`;
   }
   // face
@@ -603,6 +661,11 @@ function cat(kind) {
     s += `<path d="M22 84 H98 Q95 116 60 116 Q25 116 22 84Z" fill="#F4F0E6" ${sw}/><path d="M22 84 H98" stroke="#8DB7D8" stroke-width="4"/>`;
     s += `<g transform="rotate(-8 60 100)"><rect x="40" y="88" width="40" height="24" rx="3" fill="#BFDDB2" ${sw}/><path d="M60 88v24M50 94l4 4M70 100l4 4" stroke="${ink}" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>`;
     s += `<ellipse cx="34" cy="88" rx="8" ry="5.5" fill="${fur}" ${sw}/><ellipse cx="86" cy="88" rx="8" ry="5.5" fill="${fur}" ${sw}/>`;
+  } else if (kind === 'bags') {
+    s += `<path d="M4 80 H32 L31 114 H5Z" fill="#E4574F" ${sw}/><path d="M12 80 Q12 69 18 69 Q24 69 24 80" fill="none" stroke="${ink}" stroke-width="2.4" stroke-linecap="round"/>`;
+    s += `<path d="M88 76 H116 L115 114 H89Z" fill="#8FBFA6" ${sw}/><path d="M96 76 Q96 65 102 65 Q108 65 108 76" fill="none" stroke="${ink}" stroke-width="2.4" stroke-linecap="round"/>`;
+    s += `<path d="M50 96 H70 L69 114 H51Z" fill="#F4C84E" ${sw}/>`;
+    s += `<ellipse cx="32" cy="92" rx="8" ry="6" fill="${fur}" ${sw}/><ellipse cx="88" cy="90" rx="8" ry="6" fill="${fur}" ${sw}/>`;
   } else if (kind === 'shop') {
     s += `<path d="M36 84 H84 L82 115 H38Z" fill="#D9A56B" ${sw}/><path d="M50 84 Q50 72 60 72 Q70 72 70 84" fill="none" stroke="${ink}" stroke-width="2.4" stroke-linecap="round"/>`;
     s += `<circle cx="60" cy="100" r="7" fill="#fff" ${sw}/><circle cx="57.4" cy="98.6" r="1.1" fill="${ink}"/><circle cx="62.6" cy="98.6" r="1.1" fill="${ink}"/><path d="M58 102q2 2 4 0" fill="none" stroke="${ink}" stroke-width="1.4" stroke-linecap="round"/>`;
@@ -921,6 +984,164 @@ function renderBudget() {
   });
 }
 renderBudget();
+
+/* ---------- shopping list ---------- */
+function person(kind) {
+  const ink = '#5A4638', skin = '#FFE3CC', blush = '#F79EA6';
+  const sw = `stroke="${ink}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"`;
+  let s = '<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">';
+  s += '<ellipse cx="60" cy="117" rx="40" ry="3.6" fill="#000" opacity=".08"/>';
+  if (kind === 'girl') {
+    const hair = '#4B3226', hl = '#7A5640', top = '#F2A7AE', skirt = '#6F86B8';
+    // cart (behind the girl's arms)
+    s += `<path d="M86 100 L80 106 M104 100 L106 106" ${sw} fill="none"/>`;
+    s += `<circle cx="80" cy="108" r="4.6" fill="#8A7566" ${sw}/><circle cx="106" cy="108" r="4.6" fill="#8A7566" ${sw}/>`;
+    // goods sticking out of the cart
+    s += `<path d="M78 52 H94 L92 72 H80Z" fill="#E4574F" ${sw}/><path d="M82 52 Q82 44 86 44 Q90 44 90 52" fill="none" ${sw}/><rect x="82" y="60" width="8" height="5" rx="1.5" fill="#fff" opacity=".85"/>`;
+    s += `<path d="M96 58 H112 V72 H96Z" fill="#F4C84E" ${sw}/><path d="M96 63 H112" stroke="${ink}" stroke-width="1.6"/>`;
+    s += `<path d="M99 58 Q101 48 104 52 Q106 46 109 58" fill="#8FBFA6" ${sw}/>`;
+    // basket
+    s += `<path d="M72 68 H116 L108 98 H80Z" fill="#FFF8EA" ${sw}/>`;
+    s += `<path d="M76 79 H112 M78 89 H110 M86 68 L88 98 M97 68 L98 98 M107 68 L106 98" stroke="#BDB39C" stroke-width="1.6" fill="none"/>`;
+    s += `<path d="M72 68 H116 L108 98 H80Z" fill="none" ${sw}/>`;
+    // braids
+    s += `<path d="M20 52 Q12 70 20 90" fill="none" stroke="${ink}" stroke-width="11" stroke-linecap="round"/><path d="M20 52 Q12 70 20 90" fill="none" stroke="${hair}" stroke-width="7.4" stroke-linecap="round"/>`;
+    s += `<path d="M64 52 Q72 70 64 90" fill="none" stroke="${ink}" stroke-width="11" stroke-linecap="round"/><path d="M64 52 Q72 70 64 90" fill="none" stroke="${hair}" stroke-width="7.4" stroke-linecap="round"/>`;
+    s += `<circle cx="20" cy="90" r="3.4" fill="#E4574F" ${sw}/><circle cx="64" cy="90" r="3.4" fill="#E4574F" ${sw}/>`;
+    // legs + shoes
+    s += `<rect x="33" y="96" width="9" height="12" fill="${skin}" ${sw}/><rect x="45" y="96" width="9" height="12" fill="${skin}" ${sw}/>`;
+    s += `<path d="M30 110 Q30 106 36 106 H42 V112 H30Z" fill="#7A4B3A" ${sw}/><path d="M42 110 Q42 106 48 106 H54 V112 H42Z" fill="#7A4B3A" ${sw}/>`;
+    // skirt + top
+    s += `<path d="M29 92 Q42 88 55 92 L60 104 Q42 109 24 104Z" fill="${skirt}" ${sw}/><path d="M33 98 L32 104 M42 99 V106 M51 98 L52 104" stroke="#566A9A" stroke-width="1.6" stroke-linecap="round"/>`;
+    s += `<path d="M30 68 Q28 86 31 94 H53 Q56 86 54 68 Q42 62 30 68Z" fill="${top}" ${sw}/><path d="M42 66 V93" stroke="#D98890" stroke-width="1.8"/>`;
+    s += `<circle cx="38" cy="82" r="1.5" fill="#fff"/><circle cx="46" cy="82" r="1.5" fill="#fff"/>`;
+    // arm to cart handle
+    s += `<path d="M54 72 Q64 78 72 73" fill="none" stroke="${ink}" stroke-width="10.5" stroke-linecap="round"/><path d="M54 72 Q64 78 72 73" fill="none" stroke="${top}" stroke-width="6.8" stroke-linecap="round"/>`;
+    s += `<circle cx="73" cy="72" r="4.6" fill="${skin}" ${sw}/>`;
+    s += `<path d="M70 66 H80" stroke="${ink}" stroke-width="3.2" stroke-linecap="round"/>`;
+    // neck + head
+    s += `<rect x="37" y="58" width="10" height="10" rx="3" fill="${skin}" ${sw}/>`;
+    s += `<circle cx="42" cy="40" r="22" fill="${skin}" ${sw}/>`;
+    s += `<circle cx="20" cy="44" r="3.4" fill="${skin}" ${sw}/><circle cx="64" cy="44" r="3.4" fill="${skin}" ${sw}/>`;
+    // hair top + bangs
+    s += `<path d="M19 42 Q16 14 42 14 Q68 14 65 42 Q62 28 52 27 Q47 33 38 28 Q28 30 19 42Z" fill="${hair}" ${sw}/>`;
+    s += `<path d="M28 20 Q36 15 46 17" fill="none" stroke="${hl}" stroke-width="2.4" stroke-linecap="round"/>`;
+    // face
+    s += `<ellipse cx="33" cy="43" rx="3" ry="4" fill="${ink}"/><ellipse cx="51" cy="43" rx="3" ry="4" fill="${ink}"/><circle cx="34" cy="41.6" r="1.2" fill="#fff"/><circle cx="52" cy="41.6" r="1.2" fill="#fff"/>`;
+    s += `<ellipse cx="27" cy="50" rx="4.6" ry="2.8" fill="${blush}" opacity=".75"/><ellipse cx="57" cy="50" rx="4.6" ry="2.8" fill="${blush}" opacity=".75"/>`;
+    s += `<path d="M38.5 50 Q42 54 45.5 50" fill="none" stroke="${ink}" stroke-width="1.9" stroke-linecap="round"/>`;
+  } else {
+    const hair = '#2F2622', hl = '#5A4A42', sweater = '#F2C14E', pants = '#5C6B8A';
+    // legs + shoes
+    s += `<rect x="47" y="92" width="11" height="17" fill="${pants}" ${sw}/><rect x="62" y="92" width="11" height="17" fill="${pants}" ${sw}/>`;
+    s += `<path d="M44 112 Q44 107 50 107 H58 V113 H44Z" fill="#fff" ${sw}/><path d="M62 113 V107 H70 Q76 107 76 112 V113Z" fill="#fff" ${sw}/>`;
+    // back bag (green) + hand-held bags
+    s += `<path d="M97 84 H117 L116 106 H98Z" fill="#8FBFA6" ${sw}/><path d="M102 85 Q102 77 107 77 Q112 77 112 85" fill="none" ${sw}/><circle cx="107" cy="95" r="3.4" fill="#fff" opacity=".85"/>`;
+    s += `<path d="M77 98 H101 L99 118 H79Z" fill="#8DB7D8" ${sw}/><rect x="83" y="106" width="12" height="5" rx="1.6" fill="#fff" opacity=".85"/>`;
+    s += `<path d="M18 98 H42 L40 118 H20Z" fill="#E4574F" ${sw}/><rect x="24" y="106" width="12" height="5" rx="1.6" fill="#fff" opacity=".85"/>`;
+    // torso
+    s += `<rect x="53" y="55" width="14" height="12" rx="3" fill="${skin}" ${sw}/>`;
+    s += `<path d="M43 68 Q41 90 45 96 H75 Q79 90 77 68 Q60 60 43 68Z" fill="${sweater}" ${sw}/>`;
+    s += `<path d="M52 63 Q60 72 68 63" fill="none" ${sw}/><path d="M46 90 H74" stroke="#D9A22E" stroke-width="2"/>`;
+    // arms holding bags
+    s += `<path d="M44 70 Q31 80 33 93" fill="none" stroke="${ink}" stroke-width="11" stroke-linecap="round"/><path d="M44 70 Q31 80 33 93" fill="none" stroke="${sweater}" stroke-width="7.4" stroke-linecap="round"/>`;
+    s += `<path d="M76 70 Q89 80 87 93" fill="none" stroke="${ink}" stroke-width="11" stroke-linecap="round"/><path d="M76 70 Q89 80 87 93" fill="none" stroke="${sweater}" stroke-width="7.4" stroke-linecap="round"/>`;
+    s += `<path d="M24 99 Q24 91 31 91 Q38 91 37 99" fill="none" ${sw}/><path d="M81 99 Q81 91 88 91 Q95 91 95 99" fill="none" ${sw}/>`;
+    s += `<circle cx="33" cy="93" r="4.6" fill="${skin}" ${sw}/><circle cx="87" cy="93" r="4.6" fill="${skin}" ${sw}/>`;
+    // head
+    s += `<circle cx="38.5" cy="40" r="3.6" fill="${skin}" ${sw}/><circle cx="81.5" cy="40" r="3.6" fill="${skin}" ${sw}/>`;
+    s += `<circle cx="60" cy="37" r="22" fill="${skin}" ${sw}/>`;
+    s += `<path d="M38 34 Q35 12 60 12 Q85 12 82 34 Q80 24 70 23 Q64 28 54 24 Q44 24 38 34Z" fill="${hair}" ${sw}/>`;
+    s += `<path d="M46 17 Q54 12 63 14" fill="none" stroke="${hl}" stroke-width="2.4" stroke-linecap="round"/>`;
+    // glasses
+    s += `<circle cx="51" cy="40" r="7.2" fill="#fff" fill-opacity=".5" ${sw}/><circle cx="69" cy="40" r="7.2" fill="#fff" fill-opacity=".5" ${sw}/><path d="M58.2 40 H61.8 M43.8 39 L40.5 38.5 M76.2 39 L79.5 38.5" fill="none" ${sw}/>`;
+    s += `<circle cx="51" cy="41" r="2" fill="${ink}"/><circle cx="69" cy="41" r="2" fill="${ink}"/><circle cx="51.7" cy="40.2" r=".8" fill="#fff"/><circle cx="69.7" cy="40.2" r=".8" fill="#fff"/>`;
+    s += `<ellipse cx="44" cy="49" rx="4.2" ry="2.6" fill="${blush}" opacity=".7"/><ellipse cx="76" cy="49" rx="4.2" ry="2.6" fill="${blush}" opacity=".7"/>`;
+    s += `<path d="M55 49.5 Q60 54.5 65 49.5" fill="none" stroke="${ink}" stroke-width="1.9" stroke-linecap="round"/>`;
+  }
+  return s + '</svg>';
+}
+$('stk-shop').innerHTML = cat('bags');
+$('pgirl').innerHTML = person('girl');
+$('pboy').innerHTML = person('boy');
+
+const SCATS = ['零食', '藥妝', '服飾', '紀念品', '其他'];
+let shop = store.get('kz_shop2', null);
+if (!Array.isArray(shop)) shop = [
+  { id: 1, n: '努努雞', note: '', cat: '零食', pri: 0, done: 0, img: '' },
+  { id: 2, n: '明太子', note: '', cat: '零食', pri: 0, done: 0, img: '' },
+  { id: 3, n: '鹽昆布', note: '', cat: '零食', pri: 0, done: 0, img: '' }
+];
+$('spCat').innerHTML = SCATS.map(c => `<option>${c}</option>`).join('');
+$('spFilter').onchange = () => renderShop();
+let spImgData = '';
+const saveShop = () => store.set('kz_shop2', shop);
+
+function readImg(file) {
+  return new Promise(res => {
+    const fr = new FileReader();
+    fr.onerror = () => res('');
+    fr.onload = () => {
+      const im = new Image();
+      im.onerror = () => res('');
+      im.onload = () => {
+        const k = Math.min(1, 160 / Math.max(im.width, im.height));
+        const c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(im.width * k)); c.height = Math.max(1, Math.round(im.height * k));
+        c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+        res(c.toDataURL('image/jpeg', .7));
+      };
+      im.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  });
+}
+$('spImg').onchange = async e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  spImgData = await readImg(f);
+  $('spPrev').hidden = !spImgData; $('spPrev').src = spImgData;
+  $('spImgNote').textContent = spImgData ? '已加相' : '讀取相片失敗';
+};
+$('spToggle').onclick = () => { $('spPanel').hidden = !$('spPanel').hidden; if (!$('spPanel').hidden) $('spName').focus(); };
+$('spAdd').onclick = () => {
+  const n = $('spName').value.trim();
+  if (!n) { $('spName').focus(); return; }
+  shop.unshift({ id: Date.now(), n, note: $('spNote').value.trim(), cat: $('spCat').value, pri: +$('spPri').value, done: 0, img: spImgData });
+  saveShop();
+  $('spName').value = ''; $('spNote').value = ''; $('spImg').value = ''; spImgData = '';
+  $('spPrev').hidden = true; $('spImgNote').textContent = '可選，會自動縮細'; $('spPanel').hidden = true;
+  renderShop();
+};
+
+function shopCard(it) {
+  const d = document.createElement('div');
+  d.className = 'card shop-item' + (it.done ? ' done' : '');
+  d.innerHTML = `<input type="checkbox" class="chk" ${it.done ? 'checked' : ''} aria-label="已購買">${it.img ? '<img class="thumb" alt="">' : ''}<div class="si-main"><div class="si-name"></div><div class="si-note"></div><div class="tags"><span class="tag t-cat"></span><span class="tag p${it.pri}">${it.pri ? '重要' : '一般'}</span></div></div><button class="del" aria-label="刪除">×</button>`;
+  d.querySelector('.si-name').textContent = it.n;
+  const nt = d.querySelector('.si-note'); if (it.note) nt.textContent = it.note; else nt.remove();
+  d.querySelector('.t-cat').textContent = it.cat;
+  if (it.img) d.querySelector('.thumb').src = it.img;
+  d.querySelector('.chk').onchange = e => { it.done = e.target.checked ? 1 : 0; saveShop(); renderShop(); };
+  d.querySelector('.del').onclick = () => { shop = shop.filter(x => x.id !== it.id); saveShop(); renderShop(); };
+  return d;
+}
+function renderShop() {
+  const todo = shop.filter(x => !x.done), done = shop.filter(x => x.done);
+  $('spTodo').textContent = todo.length; $('spDone').textContent = done.length;
+  const cur = $('spFilter').value || 'all';
+  $('spFilter').innerHTML = `<option value="all">全部 (${todo.length})</option>` + SCATS.map(c => `<option value="${c}">${c} (${todo.filter(x => x.cat === c).length})</option>`).join('');
+  $('spFilter').value = [...$('spFilter').options].some(o => o.value === cur) ? cur : 'all';
+  const f = $('spFilter').value;
+  const L = $('spList'), D = $('spDoneList');
+  L.innerHTML = ''; D.innerHTML = '';
+  const shown = todo.filter(x => f === 'all' || x.cat === f);
+  if (!shown.length) L.innerHTML = '<div class="empty">暫時冇待買嘅嘢，撳「新增」記低</div>';
+  shown.forEach(x => L.appendChild(shopCard(x)));
+  if (!done.length) D.innerHTML = '<div class="empty">買咗嘅嘢剔咗就會喺度出現</div>';
+  done.forEach(x => D.appendChild(shopCard(x)));
+}
+renderShop();
 </script>
 </body>
 </html>
