@@ -683,7 +683,13 @@ const gmap = q => 'https://www.google.com/maps/search/?api=1&query=' + encodeURI
 const mapLink = q => `<a class="map" href="${gmap(q)}" target="_blank" rel="noopener" aria-label="在 Google 地圖打開">${ic('pin')}</a>`;
 const HQ_KUM = 'ドーミーイン熊本', HQ_NAG = 'ドーミーイン PREMIUM 長崎駅前', HQ_FUK = '西鉄ホテル クルーム博多';
 const FUK_INT = '福岡空港 国際線ターミナル';
-const days = [
+const store = {
+  get(k, f) { try { const v = localStorage.getItem(k); return v === null ? f : JSON.parse(v); } catch (e) { return f; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+
+let days = store.get('kz_days', null);
+if (!Array.isArray(days) || !days.length) days = [
   { dow:'Sun', n:22, title:'抵達熊本', route:'香港 → 福岡 → 熊本', hotel:'ドーミーイン熊本', hq:HQ_KUM, temp:[18,12], place:'熊本', cat:'maneki', items:[
     { time:'早上', ic:'bus', text:'金巴：澳門 → 香港機場' },
     { time:'12:55', ic:'plane', text:'UO638 · HKG 客運大樓 2 起飛', q:'香港國際機場 客運大樓2' },
@@ -720,6 +726,7 @@ const days = [
     { time:'方案 A', ic:'pin', text:'相島散步、與貓咪互動、看海', must:1, opt:'a', q:'相島 福岡' },
     { time:'方案 B', ic:'pin', text:'大濠公園散步、看秋景（市內輕鬆）', must:1, opt:'b', q:'大濠公園' },
     { time:'方案 B', ic:'pin', text:'天神・中洲・博多市內自由散步、購物、美食', opt:'b', q:'天神 福岡' },
+    { time:'中午', ic:'food', text:'FILTER SUPPLY（フィルターサプライ）飲咖啡及買咖啡豆', must:1, q:'FILTER SUPPLY 福岡' },
     { time:'晚上', ic:'food', text:'福岡市區自由活動／休息' }
   ]},
   { dow:'Sat', n:28, title:'福岡自由・出發', route:'福岡 → 香港', hotel:'11:00 前退房（西鉄ホテル クルーム博多）', hq:HQ_FUK, temp:[18,12], place:'福岡', cat:'ramen', items:[
@@ -741,7 +748,10 @@ days.forEach((d, i) => {
   b.onclick = () => showDay(i);
   chipsEl.appendChild(b);
 });
+let currentDay = 0;
+function saveDays() { store.set('kz_days', days); }
 function showDay(i) {
+  currentDay = i;
   const d = days[i];
   chipsEl.querySelectorAll('.chip').forEach((c, k) => c.classList.toggle('active', k === i));
   document.getElementById('weather').innerHTML = `
@@ -758,16 +768,70 @@ function showDay(i) {
       <div class="sticker bob" style="width:112px;height:112px;flex:none;margin-top:-6px">${cat(d.cat)}</div>
     </div>
     <a class="hotel" href="${gmap(d.hq)}" target="_blank" rel="noopener">${ic('bed')}<span>${d.hotel}</span>${ic('pin')}</a>
-    <div class="sec-title">活動安排</div>
-    ${d.items.map(it => `
-      <div class="act ${it.opt === 'b' ? 'b' : ''}">
-        <div class="dot">${ic(it.ic)}</div>
-        <div style="flex:1;min-width:0">
-          <div class="tm">${it.time}</div>
-          <div class="tx">${it.text}${it.must ? '<span class="must">必去</span>' : ''}</div>
-        </div>
-        ${it.q ? mapLink(it.q) : ''}
-      </div>`).join('')}`;
+    <div class="sec-title">活動安排 <span style="font-size:.8rem;color:var(--soft);font-weight:500">（可添加／刪除）</span></div>
+    <div id="actList"></div>
+    <div class="add-row" style="margin-top:10px;flex-wrap:wrap">
+      <input class="fld" id="newTime" placeholder="時間" style="width:80px;flex:none">
+      <input class="fld" id="newText" placeholder="活動內容" style="flex:1;min-width:140px">
+      <button class="btn" id="addAct" style="flex:none">新增</button>
+    </div>
+    <div class="add-row" style="margin-top:6px">
+      <input class="fld" id="newMap" placeholder="地圖關鍵字（可選，例如：竹乃屋 福岡空港）" style="flex:1">
+    </div>`;
+  const list = document.getElementById('actList');
+  d.items.forEach((it, idx) => {
+    const r = document.createElement('div');
+    r.className = 'act' + (it.opt === 'b' ? ' b' : '');
+    r.innerHTML = `
+      <div class="dot">${ic(it.ic || 'pin')}</div>
+      <div style="flex:1;min-width:0">
+        <div class="tm">${it.time}</div>
+        <div class="tx">${it.text}${it.must ? '<span class="must">必去</span>' : ''}</div>
+      </div>
+      ${it.q ? mapLink(it.q) : ''}
+      <div style="display:flex;flex-direction:column;gap:2px;margin-left:4px">
+        <button class="up" style="font-size:.75rem;padding:1px 6px;border:1.5px solid var(--line);border-radius:8px;background:#fff" aria-label="上移">↑</button>
+        <button class="down" style="font-size:.75rem;padding:1px 6px;border:1.5px solid var(--line);border-radius:8px;background:#fff" aria-label="下移">↓</button>
+      </div>
+      <button class="del" style="margin-left:2px" aria-label="刪除">×</button>`;
+    r.querySelector('.del').onclick = () => {
+      d.items.splice(idx, 1);
+      saveDays();
+      showDay(i);
+    };
+    r.querySelector('.up').onclick = () => {
+      if (idx > 0) {
+        [d.items[idx-1], d.items[idx]] = [d.items[idx], d.items[idx-1]];
+        saveDays();
+        showDay(i);
+      }
+    };
+    r.querySelector('.down').onclick = () => {
+      if (idx < d.items.length - 1) {
+        [d.items[idx], d.items[idx+1]] = [d.items[idx+1], d.items[idx]];
+        saveDays();
+        showDay(i);
+      }
+    };
+    list.appendChild(r);
+  });
+  document.getElementById('addAct').onclick = () => {
+    const t = document.getElementById('newTime').value.trim() || '自由';
+    const txt = document.getElementById('newText').value.trim();
+    if (!txt) return;
+    const q = document.getElementById('newMap').value.trim();
+    const item = { time: t, ic: 'pin', text: txt };
+    if (q) item.q = q;
+    d.items.push(item);
+    document.getElementById('newTime').value = '';
+    document.getElementById('newText').value = '';
+    document.getElementById('newMap').value = '';
+    saveDays();
+    showDay(i);
+  };
+  document.getElementById('newText').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('addAct').click();
+  });
 }
 showDay(0);
 
@@ -799,10 +863,6 @@ document.querySelectorAll('#nav button').forEach(b => b.onclick = () => {
 });
 
 /* ---------- storage helpers ---------- */
-const store = {
-  get(k, f) { try { const v = localStorage.getItem(k); return v === null ? f : JSON.parse(v); } catch (e) { return f; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
-};
 
 /* ---------- todo ---------- */
 let todos = store.get('kz_todos', [
@@ -851,7 +911,7 @@ function applyTheme(i) {
 }
 const swBox = document.getElementById('swatches');
 themes.forEach((t, i) => { const b = document.createElement('button'); b.className = 'sw'; b.style.background = t[0]; b.setAttribute('aria-label', themeNames[i]); b.onclick = () => applyTheme(i); swBox.appendChild(b); });
-applyTheme(store.get('kz_theme', 3));
+applyTheme(store.get('kz_theme', 6));
 
 const fs = document.getElementById('fs');
 function applyFs(v) { document.documentElement.style.fontSize = v + 'px'; document.getElementById('fsVal').textContent = v + 'px'; fs.value = v; store.set('kz_fs', v); }
@@ -889,8 +949,8 @@ function setFx(k) {
   store.set('kz_fx', k);
 }
 document.getElementById('fab').onclick = () => setFx(FX[(FX.findIndex(f => f[0] === curFx) + 1) % FX.length][0]);
-const savedFx = store.get('kz_fx', 'sakura');
-setFx(FX.some(f => f[0] === savedFx) ? savedFx : 'sakura');
+const savedFx = store.get('kz_fx', 'leaf');
+setFx(FX.some(f => f[0] === savedFx) ? savedFx : 'leaf');
 
 /* ---------- budget & currency ---------- */
 const $ = id => document.getElementById(id);
